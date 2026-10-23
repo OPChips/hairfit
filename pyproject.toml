@@ -45,6 +45,8 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
+# B008: FastAPI File()/Form()/Depends() in defaults is the framework idiom
+ignore = ["B008"]
 
 [tool.mypy]
 python_version = "3.12"

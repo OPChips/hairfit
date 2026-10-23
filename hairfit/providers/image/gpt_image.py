@@ -20,9 +20,7 @@ class GPTImageDriver(ImageDriver):
             "size": size,
         }
         data.update({k: str(v) for k, v in self.params.items() if k != "size"})
-        resp = await self._client.post(
-            f"{self.base_url}/images/edits", data=data, files=files
-        )
+        resp = await self._client.post(f"{self.base_url}/images/edits", data=data, files=files)
         resp.raise_for_status()
         payload: dict[str, Any] = resp.json()
         import base64

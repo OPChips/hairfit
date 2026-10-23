@@ -8,9 +8,8 @@ Design rules implemented here (design.md section 5):
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 from pathlib import Path
-from typing import Awaitable
 
 from hairfit.core.jobs import JobStore
 from hairfit.core.qc import QCService
@@ -57,9 +56,7 @@ class GenerateService:
         job = await self.store.create(style_ids)
         return await self.run(job, photo, on_progress)
 
-    async def run(
-        self, job: Job, photo: bytes, on_progress: ProgressFn | None = None
-    ) -> Job:
+    async def run(self, job: Job, photo: bytes, on_progress: ProgressFn | None = None) -> Job:
         await self.store.update(job, status=JobStatus.GENERATING)
         if on_progress:
             await on_progress(job)
@@ -68,11 +65,7 @@ class GenerateService:
             await self.store.update(job, add_result=result)
             if on_progress:
                 await on_progress(job)
-        status = (
-            JobStatus.DONE
-            if all(r.error is None for r in job.results)
-            else JobStatus.FAILED
-        )
+        status = JobStatus.DONE if all(r.error is None for r in job.results) else JobStatus.FAILED
         await self.store.update(job, status=status)
         if on_progress:
             await on_progress(job)

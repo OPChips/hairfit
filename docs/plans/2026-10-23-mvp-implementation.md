@@ -162,8 +162,10 @@ TDD 契约测试:用录制 fixture JSON(存放 `tests/fixtures/`)断言请求构
 
 ```python
 class AnalysisProvider(Protocol):
-    async def analyze(self, prompt: str, image: bytes,
-                      json_schema: type[BaseModel]) -> BaseModel: ...
+    async def analyze(
+        self, prompt: str, image: bytes, json_schema: type[BaseModel]
+    ) -> BaseModel: ...
+
 
 class GenerationProvider(Protocol):
     async def edit(self, prompt: str, images: list[bytes], size: str = "1024x1536") -> bytes: ...

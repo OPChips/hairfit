@@ -7,7 +7,7 @@ cascade to the next.
 
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
 from pydantic import BaseModel
 
@@ -18,14 +18,14 @@ from hairfit.providers.base import (
     GenerationProvider,
     ProviderUnavailable,
 )
-from hairfit.providers.llm.anthropic import build_anthropic
-from hairfit.providers.llm.mock import build_mock_llm
-from hairfit.providers.llm.openai_compat import build_openai_compat
 from hairfit.providers.image.gpt_image import build_gpt_image
 from hairfit.providers.image.grok import build_grok
 from hairfit.providers.image.mock import build_mock_image
 from hairfit.providers.image.nano_banana import build_nano_banana
 from hairfit.providers.image.seedream import build_seedream
+from hairfit.providers.llm.anthropic import build_anthropic
+from hairfit.providers.llm.mock import build_mock_llm
+from hairfit.providers.llm.openai_compat import build_openai_compat
 
 log = get_logger(__name__)
 
@@ -75,18 +75,16 @@ class FailoverAnalysis:
         self.providers = providers
 
     async def analyze(
-        self, prompt: str, image: bytes | None, json_schema: type[BaseModel]
+        self, prompt: str, images: list[bytes], json_schema: type[BaseModel]
     ) -> BaseModel:
         last_exc: Exception | None = None
         for p in self.providers:
             try:
-                return await p.analyze(prompt, image, json_schema)
+                return await p.analyze(prompt, images, json_schema)
             except ProviderUnavailable as exc:
                 log.warning("analysis_provider_failed", provider=p.name, error=str(exc))
                 last_exc = exc
-        raise ProviderUnavailable(
-            f"all analysis providers failed; last error: {last_exc}"
-        )
+        raise ProviderUnavailable(f"all analysis providers failed; last error: {last_exc}")
 
     async def aclose(self) -> None:
         for p in self.providers:
@@ -109,9 +107,7 @@ class FailoverGeneration:
             except ProviderUnavailable as exc:
                 log.warning("generation_provider_failed", provider=p.name, error=str(exc))
                 last_exc = exc
-        raise ProviderUnavailable(
-            f"all generation providers failed; last error: {last_exc}"
-        )
+        raise ProviderUnavailable(f"all generation providers failed; last error: {last_exc}")
 
     async def aclose(self) -> None:
         for p in self.providers:

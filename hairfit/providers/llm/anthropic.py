@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from typing import Any
 
-from pydantic import BaseModel
-
 from hairfit.config import ProviderConfig
 from hairfit.providers.llm.base import LLMDriver
 

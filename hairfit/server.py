@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import asyncio
 import json
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import AsyncIterator
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse, Response
@@ -83,9 +83,7 @@ def create_app(cfg: AppConfig | None = None, db_path: Path | None = None) -> Fas
         return result
 
     @app.post("/v1/generate")
-    async def generate(
-        photo: UploadFile = File(...), style_ids: str = Form(...)
-    ) -> dict[str, str]:
+    async def generate(photo: UploadFile = File(...), style_ids: str = Form(...)) -> dict[str, str]:
         ids = [s.strip() for s in style_ids.split(",") if s.strip()]
         if not ids:
             raise HTTPException(status_code=422, detail="style_ids 为空")
@@ -142,14 +140,29 @@ def create_app(cfg: AppConfig | None = None, db_path: Path | None = None) -> Fas
                 ref = Path(__file__).resolve().parent.parent / app.state.styles.get(sid).ref_image
             loader[sid] = ref.read_bytes()
         # stateless: the caller passes back the analysis from /v1/analyze
+        # (accepts either the full RecommendationResult or a bare FaceAnalysis)
+        from pydantic import ValidationError
+
         from hairfit.schemas import FaceAnalysis
 
         if analysis_json:
-            analysis = FaceAnalysis(**json.loads(analysis_json))
+            try:
+                payload = json.loads(analysis_json)
+                if isinstance(payload, dict) and "face_analysis" in payload:
+                    payload = payload["face_analysis"]
+                analysis = FaceAnalysis(**payload)
+            except (ValueError, ValidationError, TypeError) as exc:
+                raise HTTPException(
+                    status_code=422, detail=f"analysis_json 解析失败: {exc}"
+                ) from exc
         else:
             analysis = FaceAnalysis(
-                face_shape="oval", face_ratio="-", hair_volume="medium",
-                hair_texture="1b", hairline="normal", notes="",
+                face_shape="oval",
+                face_ratio="-",
+                hair_volume="medium",
+                hair_texture="1b",
+                hairline="normal",
+                notes="",
             )
         png = build_report(analysis, results, loader, rejected=rejected_list)
         return Response(content=png, media_type="image/png")

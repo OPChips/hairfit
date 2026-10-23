@@ -6,7 +6,8 @@ import json
 
 from hairfit.schemas import FaceShapesKB, Hairstyle, HairstylesKB
 
-RECOMMENDATION_HEADER = """你是专业发型顾问。基于用户照片和知识库，分析面部特征并推荐发型库中最合适的发型。
+RECOMMENDATION_HEADER = (  # noqa: E501
+    """你是专业发型顾问。基于用户照片和知识库，分析面部特征并推荐发型库中最合适的发型。
 
 分析元规则：{meta_rule}
 脸型知识库：{face_kb}
@@ -32,10 +33,12 @@ RECOMMENDATION_HEADER = """你是专业发型顾问。基于用户照片和知�
     {{"id": "发型库中的 id", "reason": "引用规则的一句话理由"}}
   ]
 }}"""
+)
 
 #: editing models have exactly two failure modes — design.md 5:
 #: "kept identity but ignored the edit" vs "did the edit but changed the person"
-QC_PROMPT = """你是图像质检员。对比两张图：图1 是用户原始照片，图2 是 AI 换发型后的结果（目标发型：{style_name}——{style_desc}）。
+QC_PROMPT = """你是图像质检员。对比两张图：图1 是用户原始照片，图2 是 AI 换发型后的结果
+（目标发型：{style_name}——{style_desc}）。
 
 按编辑模型的两种失败模式评分（0-10 分）：
 1. face_consistency 面部一致性：图2 的脸是否和图1 是同一个人（五官、脸型、肤色、身份特征）

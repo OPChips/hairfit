@@ -35,9 +35,7 @@ class TestCLI:
 
     def test_recommend_mock(self, tmp_path: Path, capsys: object) -> None:
         photo = _photo_png(tmp_path / "me.png")
-        code = main(
-            ["recommend", str(photo), "--config", str(_mock_config(tmp_path))]
-        )
+        code = main(["recommend", str(photo), "--config", str(_mock_config(tmp_path))])
         assert code == 0
         out = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
         assert len(out["recommended"]) == 3

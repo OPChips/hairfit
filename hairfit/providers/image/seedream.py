@@ -5,8 +5,6 @@ from __future__ import annotations
 import base64
 from typing import Any
 
-import httpx
-
 from hairfit.providers.image.base import ImageDriver, poll_until
 
 
@@ -16,9 +14,7 @@ class SeedreamDriver(ImageDriver):
     async def _request(self, prompt: str, images: list[bytes], size: str) -> bytes:
         content: list[dict[str, Any]] = []
         for img in images:
-            content.append(
-                {"type": "image_url", "image_url": {"url": _data_url(img)}}
-            )
+            content.append({"type": "image_url", "image_url": {"url": _data_url(img)}})
         content.append({"type": "text", "text": prompt})
         resp = await self._client.post(
             f"{self.base_url}/contents/generations/tasks",
@@ -38,7 +34,8 @@ class SeedreamDriver(ImageDriver):
         task: dict[str, Any] = resp.json()
         status = task.get("status", {}).get("status") or task.get("status")
         if status == "succeeded":
-            url = task["content"]["video_url"] if "video_url" in task.get("content", {}) else task["content"]["image_urls"][0]
+            content = task.get("content", {})
+            url = content.get("video_url") or content["image_urls"][0]
             img = await self._client.get(url)
             img.raise_for_status()
             return img.content

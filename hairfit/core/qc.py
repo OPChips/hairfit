@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+from typing import cast
+
+from hairfit.log import get_logger
 from hairfit.prompts import build_qc_prompt
 from hairfit.providers.base import AnalysisProvider, ProviderUnavailable
 from hairfit.schemas import Hairstyle, QCScore
-from hairfit.log import get_logger
 
 log = get_logger(__name__)
 
@@ -17,8 +19,11 @@ class QCService:
     async def score(self, generated: bytes, user_photo: bytes, style: Hairstyle) -> QCScore:
         """Two images: original first, generated second (prompt order matters)."""
         try:
-            score = await self.analysis.analyze(
-                build_qc_prompt(style), [user_photo, generated], QCScore
+            score = cast(
+                QCScore,
+                await self.analysis.analyze(
+                    build_qc_prompt(style), [user_photo, generated], QCScore
+                ),
             )
         except ProviderUnavailable as exc:
             # QC is enhancement, not on the critical path — degrade gracefully

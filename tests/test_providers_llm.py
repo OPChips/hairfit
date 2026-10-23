@@ -34,19 +34,13 @@ def _cfg(provider: str, **kw: Any) -> ProviderConfig:
     )
 
 
-OPENAI_RESP = {
-    "choices": [{"message": {"content": '```json\n{"answer": "hi"}\n```'}}]
-}
-ANTHROPIC_RESP = {
-    "content": [{"type": "text", "text": '{"answer": "hi"}'}]
-}
+OPENAI_RESP = {"choices": [{"message": {"content": '```json\n{"answer": "hi"}\n```'}}]}
+ANTHROPIC_RESP = {"content": [{"type": "text", "text": '{"answer": "hi"}'}]}
 
 
 class TestOpenAICompat:
     async def test_request_shape_and_parse(self, respx_mock: Any, monkeypatch: Any) -> None:
-        route = respx_mock.post("https://api.test/v1/chat/completions").respond(
-            json=OPENAI_RESP
-        )
+        route = respx_mock.post("https://api.test/v1/chat/completions").respond(json=OPENAI_RESP)
         monkeypatch.setenv("TEST_KEY", "sk-test")
         llm = OpenAICompatLLM(
             ProviderConfig(
@@ -63,14 +57,10 @@ class TestOpenAICompat:
         assert req["model"] == "test-model"
         assert req["temperature"] == 0.3
         assert req["messages"][0]["content"] == PROMPT
-        assert (
-            route.calls[0].request.headers["authorization"] == "Bearer sk-test"
-        )
+        assert route.calls[0].request.headers["authorization"] == "Bearer sk-test"
 
     async def test_image_as_data_url(self, respx_mock: Any) -> None:
-        route = respx_mock.post("https://api.test/v1/chat/completions").respond(
-            json=OPENAI_RESP
-        )
+        route = respx_mock.post("https://api.test/v1/chat/completions").respond(json=OPENAI_RESP)
         llm = OpenAICompatLLM(_cfg("openai"))
         img = b"\xff\xd8fakejpeg"
         await llm.analyze(PROMPT, [img], Out)

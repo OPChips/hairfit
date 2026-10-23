@@ -6,8 +6,9 @@ import asyncio
 from io import BytesIO
 from pathlib import Path
 
-from PIL import Image
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from PIL import Image
 
 from hairfit.config import AppConfig, SegmentConfig
 from hairfit.server import create_app
@@ -79,6 +80,17 @@ class TestServerE2E:
             assert rep.headers["content-type"] == "image/png"
             img = Image.open(BytesIO(rep.content))
             assert img.width > 500
+
+            # report also accepts the FULL /v1/analyze response (not just face_analysis)
+            rep2 = client.post(
+                "/v1/report",
+                data={"job_id": job_id, "analysis_json": _json.dumps(rec.json())},
+            )
+            assert rep2.status_code == 200, rep2.text
+
+            # invalid analysis_json -> 422 (not 500)
+            rep3 = client.post("/v1/report", data={"job_id": job_id, "analysis_json": '{"bad": 1}'})
+            assert rep3.status_code == 422
 
     def test_unknown_style_rejected(self, tmp_path: Path) -> None:
         app = _mock_app(tmp_path)

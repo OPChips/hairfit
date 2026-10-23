@@ -40,10 +40,7 @@ def _font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
 
 
 def _load(data: bytes | str) -> Image.Image:
-    if isinstance(data, bytes):
-        img = Image.open(BytesIO(data))
-    else:
-        img = Image.open(data)
+    img = Image.open(BytesIO(data)) if isinstance(data, bytes) else Image.open(data)
     return img.convert("RGB")
 
 

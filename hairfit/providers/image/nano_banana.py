@@ -5,8 +5,6 @@ from __future__ import annotations
 import base64
 from typing import Any
 
-import httpx
-
 from hairfit.providers.image.base import ImageDriver
 
 
@@ -16,7 +14,8 @@ class NanoBananaDriver(ImageDriver):
     async def _request(self, prompt: str, images: list[bytes], size: str) -> bytes:
         parts: list[dict[str, Any]] = []
         for img in images:
-            parts.append({"inline_data": {"mime_type": "image/png", "data": base64.b64encode(img).decode()}})
+            b64 = base64.b64encode(img).decode()
+            parts.append({"inline_data": {"mime_type": "image/png", "data": b64}})
         parts.append({"text": prompt})
         resp = await self._client.post(
             f"{self.base_url}/models/{self.model}:generateContent",

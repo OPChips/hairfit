@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import time
-from typing import Any
+from typing import Any, cast
 
 import httpx
 from pydantic import BaseModel, ValidationError
@@ -24,9 +24,7 @@ log = get_logger(__name__)
 def _retryable(exc: BaseException) -> bool:
     if isinstance(exc, httpx.HTTPStatusError):
         return exc.response.status_code == 429 or exc.response.status_code >= 500
-    if isinstance(exc, httpx.TransportError):
-        return True  # timeouts, connection errors
-    return False
+    return isinstance(exc, httpx.TransportError)  # timeouts, connection errors
 
 
 class LLMDriver:
@@ -63,7 +61,7 @@ class LLMDriver:
             elapsed_s=round(elapsed, 2),
             prompt_chars=len(str(payload)),
         )
-        return resp.json()
+        return cast(dict[str, Any], resp.json())
 
     def _endpoint(self) -> str:
         raise NotImplementedError

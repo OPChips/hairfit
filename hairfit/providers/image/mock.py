@@ -36,11 +36,9 @@ class MockImageDriver:
         px = img.load()
         assert px is not None
         for y in range(h):
-            row_color = tuple(
-                int(top[i] + (bottom[i] - top[i]) * y / h) for i in range(3)
-            )
+            row_color = tuple(int(top[i] + (bottom[i] - top[i]) * y / h) for i in range(3))
             for x in range(w):
-                px[x, y] = row_color  # type: ignore[index]
+                px[x, y] = row_color
         draw = ImageDraw.Draw(img)
         draw.rectangle((w // 4, h // 3, w * 3 // 4, h * 2 // 3), outline="white", width=4)
         draw.text((w // 2 - 60, h // 2 - 10), "MOCK GENERATED", fill="white")

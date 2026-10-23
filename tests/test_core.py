@@ -16,7 +16,7 @@ from hairfit.kb import load_face_shapes, load_hairstyles
 from hairfit.providers.base import AnalysisProvider, ProviderUnavailable
 from hairfit.providers.image.mock import MockImageDriver
 from hairfit.providers.llm.mock import MockLLM
-from hairfit.schemas import FaceShapesKB, HairstylesKB, QCScore, RecommendationResult
+from hairfit.schemas import FaceShapesKB, HairstylesKB, QCScore
 
 PHOTO = b"\xff\xd8fakephoto"
 FACES: FaceShapesKB = load_face_shapes()
@@ -157,14 +157,12 @@ class TestGenerate:
         r = job.results[0]
         assert r.error is None  # delivered anyway
         assert r.retry_used is True
-        assert r.qc_skipped is False  # qc2 also failed -> chose round-1 image; not a degradation path
+        assert r.qc_skipped is False  # qc2 failed too -> kept round-1 image
 
     async def test_missing_ref_isolated_error(self, tmp_path: Path) -> None:
         import copy
 
-        broken = HairstylesKB(
-            schema_version="1.0", items=[copy.deepcopy(STYLES.get("crew_cut"))]
-        )
+        broken = HairstylesKB(schema_version="1.0", items=[copy.deepcopy(STYLES.get("crew_cut"))])
         broken.items[0].ref_image = "no/such/file.jpg"
         store = await JobStore.open(":memory:")
         svc = GenerateService(

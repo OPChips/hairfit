@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import asyncio
 import time
-from typing import Any, Awaitable, Callable, TypeVar
+from collections.abc import Awaitable, Callable
+from typing import Any
 
 import httpx
 from tenacity import (
@@ -20,8 +21,6 @@ from hairfit.providers.base import ProviderUnavailable
 
 log = get_logger(__name__)
 
-T = TypeVar("T")
-
 #: providers whose API is submit-task -> poll-status
 POLL_INTERVAL_S = 2.0
 POLL_DEADLINE_S = 300.0
@@ -30,18 +29,15 @@ POLL_DEADLINE_S = 300.0
 def _retryable(exc: BaseException) -> bool:
     if isinstance(exc, httpx.HTTPStatusError):
         return exc.response.status_code == 429 or exc.response.status_code >= 500
-    if isinstance(exc, httpx.TransportError):
-        return True
-    return False
+    return isinstance(exc, httpx.TransportError)
 
 
-async def poll_until(
+async def poll_until[T](
     fn: Callable[[], Awaitable[T | None]],
     interval: float = POLL_INTERVAL_S,
     deadline_s: float = POLL_DEADLINE_S,
 ) -> T:
     """Poll fn() until it returns non-None or the deadline passes."""
-    loop = asyncio.get_event_loop()
     start = time.monotonic()
     while True:
         result = await fn()
@@ -49,7 +45,7 @@ async def poll_until(
             return result
         if time.monotonic() - start > deadline_s:
             raise ProviderUnavailable(f"polling timed out after {deadline_s}s")
-        await loop.sleep(interval)
+        await asyncio.sleep(interval)
 
 
 class ImageDriver:

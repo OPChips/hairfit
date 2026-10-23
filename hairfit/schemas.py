@@ -4,14 +4,12 @@ from __future__ import annotations
 
 import re
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field, field_validator
 
-FaceShape = Literal[
-    "oval", "round", "square", "heart", "diamond", "oblong", "triangle"
-]
+FaceShape = Literal["oval", "round", "square", "heart", "diamond", "oblong", "triangle"]
 HairVolume = Literal["thin", "medium", "thick"]
 Hairline = Literal["normal", "high", "receding"]
 
@@ -58,7 +56,7 @@ class QCScore(BaseModel):
         return self.verdict == "pass" and self.face_consistency >= 6
 
 
-class JobStatus(str, Enum):
+class JobStatus(StrEnum):
     QUEUED = "queued"
     GENERATING = "generating"
     DONE = "done"

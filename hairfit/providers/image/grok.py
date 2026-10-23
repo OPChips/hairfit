@@ -5,8 +5,6 @@ from __future__ import annotations
 import base64
 from typing import Any
 
-import httpx
-
 from hairfit.providers.image.base import ImageDriver
 
 

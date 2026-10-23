@@ -54,11 +54,7 @@ def validate_knowledge_bases(kb_dir: Path | None = None) -> list[str]:
     # coverage matrix (design.md 3.3): per gender, each length >= 2
     for gender in ("male", "female"):
         for length in ("short", "medium", "long"):
-            n = sum(
-                1
-                for s in styles.items
-                if s.gender == gender and s.length == length  # type: ignore[union-attr]
-            )
+            n = sum(1 for s in styles.items if s.gender == gender and s.length == length)
             if n < 2:
                 problems.append(f"coverage: {gender}/{length} has {n} styles (need >=2)")
 

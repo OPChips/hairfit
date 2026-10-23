@@ -17,9 +17,7 @@ class Out(BaseModel):
 
 
 def _seg(provider: str, fallbacks: list[ProviderConfig] | None = None) -> SegmentConfig:
-    return SegmentConfig(
-        provider=provider, model="m", api_key_env="", fallbacks=fallbacks or []
-    )
+    return SegmentConfig(provider=provider, model="m", api_key_env="", fallbacks=fallbacks or [])
 
 
 def _cfg(provider: str, key_env: str = "") -> ProviderConfig:

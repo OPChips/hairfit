@@ -55,9 +55,7 @@ class JobStore:
         return job
 
     async def get(self, job_id: str) -> Job | None:
-        async with self.db.execute(
-            "SELECT payload FROM jobs WHERE id = ?", (job_id,)
-        ) as cur:
+        async with self.db.execute("SELECT payload FROM jobs WHERE id = ?", (job_id,)) as cur:
             row = await cur.fetchone()
         return Job(**json.loads(row["payload"])) if row else None
 

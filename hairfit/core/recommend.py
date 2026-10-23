@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import cast
+
 from hairfit.prompts import build_recommendation_prompt
 from hairfit.providers.base import AnalysisProvider, ProviderUnavailable
 from hairfit.schemas import FaceShapesKB, HairstylesKB, RecommendationResult
@@ -26,16 +28,16 @@ class RecommendService:
         valid_ids = {s.id for s in styles_kb.items}
         last_error = ""
 
-        for attempt in range(1 + self.max_retries):
+        for _attempt in range(1 + self.max_retries):
             attempt_prompt = prompt
             if last_error:
                 attempt_prompt += (
-                    f"\n\n注意：上一次输出存在问题：{last_error}"
-                    "。请严格修正后重新输出 JSON。"
+                    f"\n\n注意：上一次输出存在问题：{last_error}。请严格修正后重新输出 JSON。"
                 )
             try:
-                result = await self.analysis.analyze(
-                    attempt_prompt, [photo], RecommendationResult
+                result = cast(
+                    RecommendationResult,
+                    await self.analysis.analyze(attempt_prompt, [photo], RecommendationResult),
                 )
             except ProviderUnavailable as exc:
                 raise RecommendError(f"推荐调用失败: {exc}") from exc
