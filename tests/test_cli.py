@@ -40,16 +40,21 @@ class TestCLI:
         out = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
         assert len(out["recommended"]) == 3
 
-    def test_recommend_default_config(self, tmp_path: Path, capsys: object) -> None:
-        """--config omitted -> repo default config (chain ends in mock, key-less)."""
+    def test_recommend_default_config(
+        self, tmp_path: Path, capsys: object, monkeypatch: object
+    ) -> None:
+        """--config omitted -> repo default config; env pins mock (default chain has no mock)."""
+        monkeypatch.setenv("HAIRFIT_ANALYSIS_PROVIDER", "mock")  # type: ignore[attr-defined]
         photo = _photo_png(tmp_path / "me.png")
         code = main(["recommend", str(photo)])
         assert code == 0
         out = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
         assert len(out["recommended"]) >= 3
 
-    def test_generate_default_config(self, tmp_path: Path) -> None:
-        """--config omitted -> default config; generate must not crash on None path."""
+    def test_generate_default_config(self, tmp_path: Path, monkeypatch: object) -> None:
+        """--config omitted; env pins mock. Must not crash on None config path."""
+        monkeypatch.setenv("HAIRFIT_ANALYSIS_PROVIDER", "mock")  # type: ignore[attr-defined]
+        monkeypatch.setenv("HAIRFIT_GENERATION_PROVIDER", "mock")  # type: ignore[attr-defined]
         photo = _photo_png(tmp_path / "me.png")
         out_dir = tmp_path / "out"
         code = main(

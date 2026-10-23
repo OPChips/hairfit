@@ -36,15 +36,26 @@ def create_app(cfg: AppConfig | None = None, db_path: Path | None = None) -> Fas
         configure_logging()
         app.state.store = await JobStore.open(db_file)
         await app.state.store.init_db()
-        app.state.analysis = build_analysis_chain(app_cfg)
-        app.state.generation = build_generation_chain(app_cfg)
+        # empty chain (no keys configured) must not prevent startup; endpoints 503
+        try:
+            app.state.analysis = build_analysis_chain(app_cfg)
+        except ProviderUnavailable:
+            app.state.analysis = None
+            log.warning("analysis_chain_empty")
+        try:
+            app.state.generation = build_generation_chain(app_cfg)
+        except ProviderUnavailable:
+            app.state.generation = None
+            log.warning("generation_chain_empty")
         app.state.faces = load_face_shapes()
         app.state.styles = load_hairstyles()
         log.info("server_started", db=str(db_file))
         yield
         await app.state.store.close()
-        await app.state.analysis.aclose()
-        await app.state.generation.aclose()
+        if app.state.analysis is not None:
+            await app.state.analysis.aclose()
+        if app.state.generation is not None:
+            await app.state.generation.aclose()
 
     app = FastAPI(title="HairFit", version="0.1.0", lifespan=lifespan)
 
@@ -77,6 +88,8 @@ def create_app(cfg: AppConfig | None = None, db_path: Path | None = None) -> Fas
 
     @app.post("/v1/analyze")
     async def analyze(photo: UploadFile = File(...)) -> RecommendationResult:
+        if app.state.analysis is None:
+            raise HTTPException(status_code=503, detail="无可用分析 provider（检查 API key 配置）")
         data = await photo.read()
         svc = RecommendService(app.state.analysis)
         result = await svc.analyze(data, app.state.faces, app.state.styles)
@@ -84,6 +97,8 @@ def create_app(cfg: AppConfig | None = None, db_path: Path | None = None) -> Fas
 
     @app.post("/v1/generate")
     async def generate(photo: UploadFile = File(...), style_ids: str = Form(...)) -> dict[str, str]:
+        if app.state.generation is None or app.state.analysis is None:
+            raise HTTPException(status_code=503, detail="无可用 provider（检查 API key 配置）")
         ids = [s.strip() for s in style_ids.split(",") if s.strip()]
         if not ids:
             raise HTTPException(status_code=422, detail="style_ids 为空")

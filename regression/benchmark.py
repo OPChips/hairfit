@@ -31,8 +31,8 @@ from hairfit.providers.llm.mock import MockLLM  # noqa: E402
 from hairfit.providers.registry import build_analysis_chain  # noqa: E402
 
 _FACTORIES = {
-    "gpt_image": build_gpt_image,
-    "nano_banana": build_nano_banana,
+    "openai": build_gpt_image,
+    "gemini": build_nano_banana,
     "seedream": build_seedream,
     "grok": build_grok,
 }

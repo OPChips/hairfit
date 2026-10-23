@@ -112,7 +112,7 @@ class TestBaseUrlDefaults:
             == "https://api.anthropic.com"
         )
         assert (
-            resolve_base_url(ProviderConfig(provider="nano_banana", model="m"))
+            resolve_base_url(ProviderConfig(provider="gemini", model="m"))
             == "https://generativelanguage.googleapis.com/v1beta"
         )
         assert resolve_base_url(ProviderConfig(provider="mock", model="m")) == ""
@@ -122,7 +122,7 @@ class TestBaseUrlDefaults:
         from hairfit.providers.llm.openai_compat import OpenAICompatLLM
 
         assert OpenAICompatLLM(_cfg("openai")).base_url == "https://api.openai.com/v1"
-        assert GPTImageDriver(_cfg("gpt_image")).base_url == "https://api.openai.com/v1"
+        assert GPTImageDriver(_cfg("openai")).base_url == "https://api.openai.com/v1"
 
 
 class TestEnvOverride:
@@ -134,10 +134,18 @@ class TestEnvOverride:
         assert app.analysis.model == "glm-5.3flash"
         assert app.analysis.base_url == ""
         assert app.analysis.api_key_env == "HAIRFIT_ZHIPU_API_KEY"
-        assert [p.provider for p in app.analysis.fallbacks] == ["mock"]
+        assert app.analysis.fallbacks == []
         assert app.generation.provider == "seedream"
         assert app.generation.model == "doubao-seedream-5-0-pro-260628"
         assert app.generation.api_key_env == "HAIRFIT_SEEDREAM_API_KEY"
+
+    def test_generation_openai_shares_name_with_analysis(self, monkeypatch: Any) -> None:
+        """'openai' resolves per-segment: image default ≠ LLM default, same key env."""
+        monkeypatch.setenv("HAIRFIT_GENERATION_PROVIDER", "openai")
+        app = AppConfig.load()
+        assert app.generation.provider == "openai"
+        assert app.generation.model == "gpt-image-2.5"
+        assert app.generation.api_key_env == "HAIRFIT_OPENAI_API_KEY"
 
     def test_explicit_model_and_base_url_win(self, monkeypatch: Any) -> None:
         monkeypatch.setenv("HAIRFIT_ANALYSIS_PROVIDER", "openai")
@@ -164,10 +172,10 @@ class TestEnvOverride:
             _json.dumps(
                 {
                     "analysis": {"provider": "kimi", "model": "m", "params": {}},
-                    "generation": {"provider": "nano_banana", "model": "m", "params": {}},
+                    "generation": {"provider": "gemini", "model": "m", "params": {}},
                 }
             )
         )
         app = AppConfig.load(p)
         assert app.analysis.api_key_env == "HAIRFIT_KIMI_API_KEY"
-        assert app.generation.api_key_env == "HAIRFIT_GEMINI_API_KEY"  # override map
+        assert app.generation.api_key_env == "HAIRFIT_GEMINI_API_KEY"

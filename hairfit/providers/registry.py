@@ -42,8 +42,8 @@ _LLM_FACTORIES: dict[str, Callable[[ProviderConfig], AnalysisProvider]] = {
 }
 
 _IMAGE_FACTORIES: dict[str, Callable[[ProviderConfig], GenerationProvider]] = {
-    "gpt_image": build_gpt_image,
-    "nano_banana": build_nano_banana,
+    "openai": build_gpt_image,
+    "gemini": build_nano_banana,
     "seedream": build_seedream,
     "grok": build_grok,
     "mock": build_mock_image,

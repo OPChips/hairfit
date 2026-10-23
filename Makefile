@@ -31,9 +31,10 @@ health:
 	@curl -s http://127.0.0.1:8321/healthz && echo
 	@curl -s http://127.0.0.1:8321/healthz/providers | python3 -m json.tool
 
-## 无 key 演示：自动起服务（幂等），容器内走 mock 链路生成一张图到挂载卷
+## 无 key 演示：自动起服务（幂等），显式指定 mock provider 生成一张图到挂载卷
 demo: up
-	@docker compose exec hairfit sh -c "\
+	@docker compose exec -e HAIRFIT_ANALYSIS_PROVIDER=mock -e HAIRFIT_GENERATION_PROVIDER=mock \
+		hairfit sh -c "\
 	  python -c \"from PIL import Image; Image.new('RGB',(400,500),(170,140,120)).save('/tmp/me.png')\" && \
 	  hairfit generate /tmp/me.png --styles textured_crop --out /data/output/demo"
 

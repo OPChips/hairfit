@@ -22,16 +22,16 @@ Ports & Adapters 分层：`core/`（业务编排）只依赖两个端口（`Anal
 | 环节 | 支持 |
 |---|---|
 | 分析+推荐 | OpenAI、Anthropic、DeepSeek、火山豆包、阿里千问、智谱、Kimi 等（OpenAI 兼容端点共用一个适配器） |
-| 换发生成 | gpt-image、nano-banana（Gemini）、seedream（豆包 Ark）、grok、mock 等 |
+| 换发生成 | openai（gpt-image）、gemini（Nano Banana）、seedream（豆包 Ark）、grok |
 
-不使用任何厂商 SDK，统一 httpx 异步直连 REST。每个环节声明 fallback 链，单厂商故障自动切换。未配置 key 的 provider 自动跳过，mock 永远兜底——**无 key 也能跑通全链路**。
+不使用任何厂商 SDK，统一 httpx 异步直连 REST。每个环节声明 fallback 链，单厂商故障自动切换；未配置 key 的 provider 自动跳过。另内置 `mock` provider（显式指定即可无 key 跑通全链路，如 `make demo`）。
 
 `base_url` 可不填（默认各协议官方端点）；填自定义值即可走代理或中转网关。
 
 ## 快速开始（默认 Docker 部署）
 
 ```bash
-make up        # 构建 + 后台启动 + 健康检查（首次自动生成 .env，无 key 也能跑 mock 链路）
+make up        # 构建 + 后台启动 + 健康检查（首次自动生成 .env）
 make logs      # 跟踪日志
 make health    # 服务与各 provider key 状态
 make down      # 停止
@@ -43,12 +43,12 @@ make down      # 停止
 
 ```bash
 HAIRFIT_ANALYSIS_PROVIDER=zhipu        # openai/anthropic/deepseek/qwen/zhipu/doubao/kimi
-HAIRFIT_GENERATION_PROVIDER=seedream   # gpt_image/nano_banana/seedream/grok
+HAIRFIT_GENERATION_PROVIDER=seedream   # openai/gemini/seedream/grok
 HAIRFIT_ZHIPU_API_KEY=xxx
 HAIRFIT_SEEDREAM_API_KEY=xxx
 ```
 
-model 名不填自动用各厂商默认值（`HAIRFIT_*_MODEL` 可覆盖），`base_url` 不填走官方端点（`HAIRFIT_*_BASE_URL` 可指代理/中转）。key 变量名按 provider 自动推导（`HAIRFIT_{PROVIDER大写}_API_KEY`，nano_banana 例外用 `HAIRFIT_GEMINI_API_KEY`）。
+model 名不填自动用各厂商默认值（`HAIRFIT_*_MODEL` 可覆盖），`base_url` 不填走官方端点（`HAIRFIT_*_BASE_URL` 可指代理/中转）。key 变量名按 provider 自动推导（`HAIRFIT_{PROVIDER大写}_API_KEY`，如 `openai` → `HAIRFIT_OPENAI_API_KEY`，分析与生成共用同一个 OpenAI key）。
 
 常用命令一览：
 

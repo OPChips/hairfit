@@ -8,7 +8,7 @@ from hairfit.providers.image.base import ImageDriver
 
 
 class GPTImageDriver(ImageDriver):
-    name = "gpt_image"
+    name = "openai"
 
     async def _request(self, prompt: str, images: list[bytes], size: str) -> bytes:
         files: list[tuple[str, tuple[str, bytes, str]]] = []

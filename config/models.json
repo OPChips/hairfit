@@ -10,18 +10,17 @@
         "model": "claude-sonnet-4-6",
         "api_key_env": "HAIRFIT_ANTHROPIC_API_KEY",
         "params": { "temperature": 0.25, "max_output_tokens": 2048 }
-      },
-      { "provider": "mock", "model": "mock-vision", "params": {} }
+      }
     ]
   },
   "generation": {
-    "provider": "gpt_image",
+    "provider": "openai",
     "model": "gpt-image-2.5",
-    "api_key_env": "HAIRFIT_GPT_IMAGE_API_KEY",
+    "api_key_env": "HAIRFIT_OPENAI_API_KEY",
     "params": { "size": "1024x1536", "quality": "high" },
     "fallbacks": [
       {
-        "provider": "nano_banana",
+        "provider": "gemini",
         "model": "gemini-3-pro-image-preview",
         "api_key_env": "HAIRFIT_GEMINI_API_KEY",
         "params": {}
@@ -37,8 +36,7 @@
         "model": "grok-imagine-image-2.0",
         "api_key_env": "HAIRFIT_GROK_API_KEY",
         "params": {}
-      },
-      { "provider": "mock", "model": "mock-image", "params": {} }
+      }
     ]
   }
 }

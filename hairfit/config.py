@@ -71,18 +71,18 @@ def _env_override(segment: str, seg: SegmentConfig) -> None:
     """HAIRFIT_{SEGMENT}_PROVIDER switches the whole segment from env alone.
 
     model/base_url derive from provider defaults unless explicitly given;
-    the chain becomes [provider, mock] (mock always兜底).
+    the chain becomes just that provider (fallbacks cleared).
     """
     provider = os.environ.get(f"HAIRFIT_{segment.upper()}_PROVIDER", "")
     if not provider:
         return
     prefix = f"HAIRFIT_{segment.upper()}"
+    defaults = DEFAULT_MODELS if segment == "analysis" else DEFAULT_IMAGE_MODELS
     seg.provider = provider
-    seg.model = os.environ.get(f"{prefix}_MODEL", "") or DEFAULT_MODELS.get(provider, "mock")
+    seg.model = os.environ.get(f"{prefix}_MODEL", "") or defaults.get(provider, "mock")
     seg.base_url = os.environ.get(f"{prefix}_BASE_URL", "")
     seg.api_key_env = os.environ.get(f"{prefix}_API_KEY_ENV", "") or key_env_for(provider)
-    mock_model = "mock-vision" if segment == "analysis" else "mock-image"
-    seg.fallbacks = [ProviderConfig(provider="mock", model=mock_model, params={})]
+    seg.fallbacks = []
 
 
 def load_config(path: Path | None = None) -> AppConfig:
@@ -102,8 +102,7 @@ DEFAULT_BASE_URLS: dict[str, str] = {
     "kimi": "https://api.moonshot.cn/v1",
     "anthropic": "https://api.anthropic.com",
     # image generation
-    "gpt_image": "https://api.openai.com/v1",
-    "nano_banana": "https://generativelanguage.googleapis.com/v1beta",
+    "gemini": "https://generativelanguage.googleapis.com/v1beta",
     "seedream": "https://ark.cn-beijing.volces.com/api/v3",
     "grok": "https://api.x.ai/v1",
     "mock": "",
@@ -119,21 +118,23 @@ DEFAULT_MODELS: dict[str, str] = {
     "zhipu": "glm-5.3flash",  # natively multimodal (image/video), 1M ctx
     "doubao": "doubao-seed-2-0-lite-260428",  # Seed 2.0 全模态, Pro id 见方舟模型列表
     "kimi": "kimi-k3",  # natively multimodal; moonshot-v1-*-vision retired 2026-08
-    "gpt_image": "gpt-image-2.5",  # GPT Images 2.5, API since 2026-09
-    "nano_banana": "gemini-3-pro-image-preview",  # Nano Banana Pro official id
+    "mock": "mock",
+}
+
+#: generation segment defaults — names overlap with analysis (openai), hence split
+DEFAULT_IMAGE_MODELS: dict[str, str] = {
+    "openai": "gpt-image-2.5",  # GPT Images 2.5, API since 2026-09
+    "gemini": "gemini-3-pro-image-preview",  # Nano Banana Pro official id
     "seedream": "doubao-seedream-5-0-pro-260628",  # Seedream 5.0 Pro，方舟当前旗舰生图
     "grok": "grok-imagine-image-2.0",  # Grok Imagine Image 2.0，docs.x.ai REST 示例 id
     "mock": "mock",
 }
 
-#: providers whose key env name doesn't follow HAIRFIT_{PROVIDER}_API_KEY
-_KEY_ENV_OVERRIDES = {"nano_banana": "HAIRFIT_GEMINI_API_KEY"}
-
 
 def key_env_for(provider: str) -> str:
     if provider == "mock":
         return ""
-    return _KEY_ENV_OVERRIDES.get(provider, f"HAIRFIT_{provider.upper()}_API_KEY")
+    return f"HAIRFIT_{provider.upper()}_API_KEY"
 
 
 def resolve_base_url(cfg: ProviderConfig) -> str:

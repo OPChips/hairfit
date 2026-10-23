@@ -9,7 +9,7 @@ from hairfit.providers.image.base import ImageDriver
 
 
 class NanoBananaDriver(ImageDriver):
-    name = "nano_banana"
+    name = "gemini"
 
     async def _request(self, prompt: str, images: list[bytes], size: str) -> bytes:
         parts: list[dict[str, Any]] = []
