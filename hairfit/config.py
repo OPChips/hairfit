@@ -109,15 +109,16 @@ DEFAULT_BASE_URLS: dict[str, str] = {
     "mock": "",
 }
 
-#: default model per provider — env-only config (HAIRFIT_*_PROVIDER) needs no model name
+#: default model per provider — env-only config (HAIRFIT_*_PROVIDER) needs no model name.
+#: All analysis defaults are vision-capable (as of 2026-10).
 DEFAULT_MODELS: dict[str, str] = {
     "openai": "gpt-6.1-sol",
-    "anthropic": "claude-sonnet-4-6",
-    "deepseek": "deepseek-vision",
-    "qwen": "qwen-vl-max",
-    "zhipu": "glm-5.3flash",
-    "doubao": "doubao-1.5-vision-pro",
-    "kimi": "moonshot-v1-8k-vision-preview",
+    "anthropic": "claude-sonnet-4-6",  # all Claude 3+ are vision-native
+    "deepseek": "deepseek-flash",  # V4.1 Flash, natively multimodal
+    "qwen": "qwen3.8-flash",  # latest multimodal flash on Bailian
+    "zhipu": "glm-5.3flash",  # natively multimodal (image/video), 1M ctx
+    "doubao": "doubao-seed-1-6-vision-250815",
+    "kimi": "kimi-k3",  # natively multimodal; moonshot-v1-*-vision retired 2026-08
     "gpt_image": "gpt-image-2.5",
     "nano_banana": "gemini-3nano-image",
     "seedream": "seedream-5.0",
