@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hairfit"
+version = "0.1.0"
+description = "AI hairstyle recommendation & virtual try-on — multimodal LLM recommendation + image-editing model swap, BYOK, provider-pluggable"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = [
+    "httpx>=0.27",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "pillow>=10.3",
+    "tenacity>=8.3",
+    "structlog>=24.1",
+    "aiosqlite>=0.20",
+]
+
+[project.optional-dependencies]
+server = ["fastapi>=0.111", "uvicorn>=0.30", "python-multipart>=0.0.9"]
+dev = [
+    "pytest>=8.2",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.4",
+    "mypy>=1.10",
+]
+
+[project.scripts]
+hairfit = "hairfit.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hairfit"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
