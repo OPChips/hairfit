@@ -44,7 +44,7 @@ class TestAnalysisChain:
         first = chain.providers[0]
         assert hasattr(first, "fail_times")
         first.fail_times = 1  # type: ignore[attr-defined]
-        out = await chain.analyze("p", None, Out)
+        out = await chain.analyze("p", [], Out)
         assert isinstance(out, Out)
 
     async def test_all_fail_raises(self) -> None:
@@ -53,7 +53,7 @@ class TestAnalysisChain:
         for p in chain.providers:
             p.fail_times = 99  # type: ignore[attr-defined]
         with pytest.raises(ProviderUnavailable, match="all analysis providers"):
-            await chain.analyze("p", None, Out)
+            await chain.analyze("p", [], Out)
 
     def test_no_provider_available(self, monkeypatch: Any) -> None:
         monkeypatch.delenv("HAIRFIT_NOPE", raising=False)

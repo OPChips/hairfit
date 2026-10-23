@@ -57,7 +57,7 @@ class TestOpenAICompat:
                 params={"temperature": 0.3},
             )
         )
-        out = await llm.analyze(PROMPT, None, Out)
+        out = await llm.analyze(PROMPT, [], Out)
         assert out.answer == "hi"
         req = json.loads(route.calls[0].request.content)
         assert req["model"] == "test-model"
@@ -73,7 +73,7 @@ class TestOpenAICompat:
         )
         llm = OpenAICompatLLM(_cfg("openai"))
         img = b"\xff\xd8fakejpeg"
-        await llm.analyze(PROMPT, img, Out)
+        await llm.analyze(PROMPT, [img], Out)
         req = json.loads(route.calls[0].request.content)
         content = req["messages"][0]["content"]
         assert content[0]["type"] == "text"
@@ -87,7 +87,7 @@ class TestOpenAICompat:
             httpx.Response(200, json=OPENAI_RESP),
         ]
         llm = OpenAICompatLLM(_cfg("openai"))
-        out = await llm.analyze(PROMPT, None, Out)
+        out = await llm.analyze(PROMPT, [], Out)
         assert out.answer == "hi"
         assert route.call_count == 2
 
@@ -97,7 +97,7 @@ class TestOpenAICompat:
         )
         llm = OpenAICompatLLM(_cfg("openai"))
         with pytest.raises(ProviderUnavailable, match="400"):
-            await llm.analyze(PROMPT, None, Out)
+            await llm.analyze(PROMPT, [], Out)
         assert route.call_count == 1
 
     async def test_invalid_json_raises_unavailable(self, respx_mock: Any) -> None:
@@ -106,7 +106,7 @@ class TestOpenAICompat:
         )
         llm = OpenAICompatLLM(_cfg("openai"))
         with pytest.raises(ProviderUnavailable, match="invalid JSON"):
-            await llm.analyze(PROMPT, None, Out)
+            await llm.analyze(PROMPT, [], Out)
 
 
 class TestAnthropic:
@@ -121,7 +121,7 @@ class TestAnthropic:
                 params={"max_output_tokens": 1000},
             )
         )
-        out = await llm.analyze(PROMPT, b"img", Out)
+        out = await llm.analyze(PROMPT, [b"img"], Out)
         assert out.answer == "hi"
         req = json.loads(route.calls[0].request.content)
         assert req["max_tokens"] == 1000
@@ -135,14 +135,14 @@ class TestMock:
         from hairfit.schemas import RecommendationResult
 
         llm = MockLLM(_cfg("mock"))
-        out = await llm.analyze("你是专业发型顾问……", None, RecommendationResult)
+        out = await llm.analyze("你是专业发型顾问……", [], RecommendationResult)
         assert len(out.recommended) == 3
 
     async def test_fail_times(self) -> None:
         llm = MockLLM(_cfg("mock"))
         llm.fail_times = 1
         with pytest.raises(ProviderUnavailable):
-            await llm.analyze("x", None, Out)
+            await llm.analyze("x", [], Out)
 
 
 def test_strip_fences() -> None:

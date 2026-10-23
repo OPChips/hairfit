@@ -17,23 +17,20 @@ class AnthropicLLM(LLMDriver):
         return f"{self.base_url}/v1/messages"
 
     def _build_request(
-        self, prompt: str, image: bytes | None
+        self, prompt: str, images: list[bytes]
     ) -> tuple[dict[str, Any], dict[str, str]]:
-        content: list[dict[str, Any]]
-        if image is None:
-            content = [{"type": "text", "text": prompt}]
-        else:
-            content = [
-                {
-                    "type": "image",
-                    "source": {
-                        "type": "base64",
-                        "media_type": "image/jpeg",
-                        "data": _b64(image),
-                    },
+        content: list[dict[str, Any]] = [
+            {
+                "type": "image",
+                "source": {
+                    "type": "base64",
+                    "media_type": "image/jpeg",
+                    "data": _b64(img),
                 },
-                {"type": "text", "text": prompt},
-            ]
+            }
+            for img in images
+        ]
+        content.append({"type": "text", "text": prompt})
         params = dict(self.params)
         payload: dict[str, Any] = {
             "model": self.model,

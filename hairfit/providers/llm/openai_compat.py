@@ -28,20 +28,21 @@ class OpenAICompatLLM(LLMDriver):
         return h
 
     def _build_request(
-        self, prompt: str, image: bytes | None
+        self, prompt: str, images: list[bytes]
     ) -> tuple[dict[str, Any], dict[str, str]]:
         content: list[dict[str, Any]] | str
-        if image is None:
+        if not images:
             content = prompt
         else:
-            b64 = base64.b64encode(image).decode()
-            content = [
-                {"type": "text", "text": prompt},
-                {
-                    "type": "image_url",
-                    "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
-                },
-            ]
+            content = [{"type": "text", "text": prompt}]
+            for img in images:
+                b64 = base64.b64encode(img).decode()
+                content.append(
+                    {
+                        "type": "image_url",
+                        "image_url": {"url": f"data:image/jpeg;base64,{b64}"},
+                    }
+                )
         payload: dict[str, Any] = {
             "model": self.model,
             "messages": [{"role": "user", "content": content}],

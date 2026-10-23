@@ -31,7 +31,7 @@ class MockLLM:
     async def aclose(self) -> None: ...
 
     async def analyze(
-        self, prompt: str, image: bytes | None, json_schema: type[BaseModel]
+        self, prompt: str, images: list[bytes], json_schema: type[BaseModel]
     ) -> BaseModel:
         self.calls += 1
         if self.fail_times > 0:

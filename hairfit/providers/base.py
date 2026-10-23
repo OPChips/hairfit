@@ -13,12 +13,12 @@ class ProviderUnavailable(Exception):
 
 @runtime_checkable
 class AnalysisProvider(Protocol):
-    """Multimodal/text LLM: prompt (+optional image) -> validated pydantic model."""
+    """Multimodal/text LLM: prompt (+optional images) -> validated pydantic model."""
 
     name: str
 
     async def analyze(
-        self, prompt: str, image: bytes | None, json_schema: type[BaseModel]
+        self, prompt: str, images: list[bytes], json_schema: type[BaseModel]
     ) -> BaseModel: ...
 
 

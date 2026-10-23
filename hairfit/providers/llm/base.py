@@ -69,11 +69,11 @@ class LLMDriver:
         raise NotImplementedError
 
     async def analyze(
-        self, prompt: str, image: bytes | None, json_schema: type[BaseModel]
+        self, prompt: str, images: list[bytes], json_schema: type[BaseModel]
     ) -> BaseModel:
         """Public API: build payload, send, parse into schema; unified failure type."""
         try:
-            payload, headers = self._build_request(prompt, image)
+            payload, headers = self._build_request(prompt, images)
             data = await self._send(payload, headers)
             text = self._extract_text(data)
         except ProviderUnavailable:
@@ -89,7 +89,7 @@ class LLMDriver:
         return self._parse(text, json_schema)
 
     def _build_request(
-        self, prompt: str, image: bytes | None
+        self, prompt: str, images: list[bytes]
     ) -> tuple[dict[str, Any], dict[str, str]]:
         raise NotImplementedError
 
