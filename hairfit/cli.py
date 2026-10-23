@@ -43,14 +43,16 @@ def cmd_recommend(args: argparse.Namespace) -> int:
     from hairfit.schemas import RecommendationResult
 
     configure_logging(verbose=args.verbose)
-    photo = Path(args.photo).read_bytes()
 
     async def run() -> RecommendationResult:
+        from hairfit.core.ingest import load_photo
+
         cfg = load_config(Path(args.config) if args.config else None)
         chain = build_analysis_chain(cfg)
         svc = RecommendService(chain)
         from hairfit.kb import load_face_shapes, load_hairstyles
 
+        photo = await load_photo(args.photo)
         return await svc.analyze(photo, load_face_shapes(), load_hairstyles())
 
     result = asyncio.run(run())
@@ -68,11 +70,13 @@ def cmd_generate(args: argparse.Namespace) -> int:
     from hairfit.providers.registry import build_analysis_chain, build_generation_chain
 
     configure_logging(verbose=args.verbose)
-    photo = Path(args.photo).read_bytes()
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     async def run() -> int:
+        from hairfit.core.ingest import load_photo
+
+        photo = await load_photo(args.photo)
         cfg = load_config(Path(args.config) if args.config else None)
         store = await JobStore.open(Path(args.db))
         try:
@@ -113,12 +117,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.set_defaults(func=cmd_serve)
 
     p = sub.add_parser("recommend", help="分析照片并推荐发型")
-    p.add_argument("photo", help="用户照片路径")
+    p.add_argument("photo", help="用户照片路径或 http(s) 图片链接")
     p.add_argument("--config", default=None, help="models.json 路径")
     p.set_defaults(func=cmd_recommend)
 
     p = sub.add_parser("generate", help="按款式生成换发图")
-    p.add_argument("photo", help="用户照片路径")
+    p.add_argument("photo", help="用户照片路径或 http(s) 图片链接")
     p.add_argument("--styles", required=True, help="逗号分隔的款式 id")
     p.add_argument("--out", default="output", help="输出目录")
     p.add_argument("--db", default="hairfit.db", help="job 数据库路径")

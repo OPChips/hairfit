@@ -8,11 +8,13 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from pathlib import Path
 
+import httpx
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import JSONResponse, Response
 
 from hairfit.config import AppConfig, MissingAPIKeyError, resolve_api_key
 from hairfit.core.generate import GenerateService
+from hairfit.core.ingest import load_photo
 from hairfit.core.jobs import JobStore
 from hairfit.core.recommend import RecommendError, RecommendService
 from hairfit.core.report import build_report
@@ -25,6 +27,22 @@ from hairfit.schemas import RecommendationResult
 log = get_logger(__name__)
 
 DB_PATH = Path("hairfit.db")
+
+
+async def _photo_bytes(photo: UploadFile | None, photo_url: str) -> bytes:
+    """Accept either an uploaded file or an http(s) URL (mutually exclusive)."""
+    if photo_url:
+        if photo is not None and photo.filename:
+            raise HTTPException(status_code=422, detail="photo 与 photo_url 只能二选一")
+        try:
+            return await load_photo(photo_url)
+        except ValueError as exc:
+            raise HTTPException(status_code=422, detail=str(exc)) from exc
+        except (httpx.HTTPError, OSError) as exc:
+            raise HTTPException(status_code=422, detail=f"拉取图片失败: {exc}") from exc
+    if photo is None or not photo.filename:
+        raise HTTPException(status_code=422, detail="需要 photo 文件或 photo_url")
+    return await photo.read()
 
 
 def create_app(cfg: AppConfig | None = None, db_path: Path | None = None) -> FastAPI:
@@ -87,16 +105,22 @@ def create_app(cfg: AppConfig | None = None, db_path: Path | None = None) -> Fas
         return {"analysis": probe(app_cfg.analysis), "generation": probe(app_cfg.generation)}
 
     @app.post("/v1/analyze")
-    async def analyze(photo: UploadFile = File(...)) -> RecommendationResult:
+    async def analyze(
+        photo: UploadFile | None = File(None), photo_url: str = Form("")
+    ) -> RecommendationResult:
         if app.state.analysis is None:
             raise HTTPException(status_code=503, detail="无可用分析 provider（检查 API key 配置）")
-        data = await photo.read()
+        data = await _photo_bytes(photo, photo_url)
         svc = RecommendService(app.state.analysis)
         result = await svc.analyze(data, app.state.faces, app.state.styles)
         return result
 
     @app.post("/v1/generate")
-    async def generate(photo: UploadFile = File(...), style_ids: str = Form(...)) -> dict[str, str]:
+    async def generate(
+        photo: UploadFile | None = File(None),
+        photo_url: str = Form(""),
+        style_ids: str = Form(...),
+    ) -> dict[str, str]:
         if app.state.generation is None or app.state.analysis is None:
             raise HTTPException(status_code=503, detail="无可用 provider（检查 API key 配置）")
         ids = [s.strip() for s in style_ids.split(",") if s.strip()]
@@ -109,7 +133,7 @@ def create_app(cfg: AppConfig | None = None, db_path: Path | None = None) -> Fas
                 raise HTTPException(  # noqa: B904
                     status_code=422, detail=f"未知款式 id: {sid}"
                 )
-        data = await photo.read()
+        data = await _photo_bytes(photo, photo_url)
         job = await app.state.store.create(ids)
         svc = GenerateService(
             generation=app.state.generation,

@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import time
+from io import BytesIO
 from typing import Any, cast
 
 import httpx
+from PIL import Image, ImageOps
 from pydantic import BaseModel, ValidationError
 from tenacity import (
     retry,
@@ -19,6 +21,44 @@ from hairfit.log import get_logger
 from hairfit.providers.base import ProviderUnavailable, SchemaValidationError
 
 log = get_logger(__name__)
+
+#: vision encoders work at ~1.15MP (Anthropic recommends <=1568px long edge);
+#: larger inputs only cost tokens/bandwidth, never quality
+MAX_SIDE_PX = 1568
+#: images already small enough are passed through untouched (no recompression)
+PASSTHROUGH_BYTES = 1 * 1024 * 1024
+
+
+def prepare_images(images: list[bytes]) -> list[bytes]:
+    """Downscale + JPEG-encode photos for vision input (saves ~95% payload).
+
+    Undecodable bytes pass through unchanged so callers see the provider's
+    own error rather than a local one.
+    """
+    out: list[bytes] = []
+    for img in images:
+        try:
+            with Image.open(BytesIO(img)) as opened:
+                opened.load()
+                if len(img) <= PASSTHROUGH_BYTES and max(opened.size) <= MAX_SIDE_PX:
+                    out.append(img)
+                    continue
+                im = ImageOps.exif_transpose(opened)
+                if im.mode != "RGB":
+                    if "A" in im.mode or im.mode == "P":
+                        rgba = im.convert("RGBA")
+                        bg = Image.new("RGB", rgba.size, (255, 255, 255))
+                        bg.paste(rgba, mask=rgba.split()[-1])
+                        im = bg
+                    else:
+                        im = im.convert("RGB")
+                im.thumbnail((MAX_SIDE_PX, MAX_SIDE_PX))
+                buf = BytesIO()
+                im.save(buf, format="JPEG", quality=85)
+                out.append(buf.getvalue())
+        except (OSError, ValueError):
+            out.append(img)
+    return out
 
 
 def _retryable(exc: BaseException) -> bool:
@@ -70,6 +110,7 @@ class LLMDriver:
         self, prompt: str, images: list[bytes], json_schema: type[BaseModel]
     ) -> BaseModel:
         """Public API: build payload, send, parse into schema; unified failure type."""
+        images = prepare_images(images)
         try:
             payload, headers = self._build_request(prompt, images)
             data = await self._send(payload, headers)

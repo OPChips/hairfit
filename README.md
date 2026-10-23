@@ -70,6 +70,7 @@ pip install -e ".[server,dev]"
 
 hairfit validate-kb      # 校验知识库
 hairfit recommend face.jpg
+hairfit recommend https://example.com/photo.png   # 也支持图片链接
 hairfit generate face.jpg --styles textured_crop,crew_cut --out output/
 hairfit serve            # http://127.0.0.1:8321/docs
 ```
@@ -78,8 +79,8 @@ hairfit serve            # http://127.0.0.1:8321/docs
 
 | 端点 | 说明 |
 |---|---|
-| `POST /v1/analyze` | 照片 → 脸部分析 + top3-5 推荐 |
-| `POST /v1/generate` | 照片 + style_ids → job_id（后台生成） |
+| `POST /v1/analyze` | 照片 → 脸部分析 + top3-5 推荐（`photo` 文件或 `photo_url` 链接二选一） |
+| `POST /v1/generate` | 照片 + style_ids → job_id（后台生成；同样支持 `photo_url`） |
 | `GET /v1/jobs/{id}` | job 进度与结果 |
 | `POST /v1/report` | job → 对比报告卡 PNG（不推荐款用参考图+❌，零生成成本） |
 | `GET /healthz` / `GET /healthz/providers` | 健康检查 / 各 provider key 状态 |
