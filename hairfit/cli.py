@@ -48,7 +48,9 @@ def cmd_recommend(args: argparse.Namespace) -> int:
         cfg = load_config(Path(args.config))
         chain = build_analysis_chain(cfg)
         svc = RecommendService(chain)
-        return await svc.analyze(photo)
+        from hairfit.kb import load_face_shapes, load_hairstyles
+
+        return await svc.analyze(photo, load_face_shapes(), load_hairstyles())
 
     result = asyncio.run(run())
     print(result.model_dump_json(indent=2))

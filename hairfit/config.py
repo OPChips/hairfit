@@ -52,6 +52,11 @@ class AppConfig(BaseModel):
         return cls(**data)
 
 
+def load_config(path: Path | None = None) -> AppConfig:
+    """Alias used by CLI/server entry points."""
+    return AppConfig.load(path)
+
+
 class MissingAPIKeyError(Exception):
     """The env var referenced by api_key_env is not set."""
 
