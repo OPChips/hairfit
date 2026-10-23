@@ -22,6 +22,7 @@ from hairfit.core.generate import GenerateService  # noqa: E402
 from hairfit.core.jobs import JobStore  # noqa: E402
 from hairfit.kb import load_hairstyles  # noqa: E402
 from hairfit.log import configure_logging  # noqa: E402
+from hairfit.providers.image.apimart import build_apimart  # noqa: E402
 from hairfit.providers.image.gpt_image import build_gpt_image  # noqa: E402
 from hairfit.providers.image.grok import build_grok  # noqa: E402
 from hairfit.providers.image.mock import MockImageDriver  # noqa: E402
@@ -34,6 +35,7 @@ _FACTORIES = {
     "openai": build_gpt_image,
     "gemini": build_nano_banana,
     "seedream": build_seedream,
+    "apimart": build_apimart,
     "grok": build_grok,
 }
 
@@ -42,7 +44,7 @@ def collect_generation_providers(app: AppConfig, dry_run: bool) -> list[tuple[st
     """[(name, driver)] from the configured chain (plus fallbacks)."""
     if dry_run:
         return [("mock", MockImageDriver(ProviderConfig(provider="mock", model="mock")))]
-    out = []
+    out: list[tuple[str, object]] = []
     for cfg in app.generation.chain():
         factory = _FACTORIES.get(cfg.provider)
         if factory is None:
@@ -81,7 +83,7 @@ async def run_benchmark(faces_dir: Path, style_ids: list[str], dry_run: bool) ->
         try:
             svc = GenerateService(
                 generation=driver,  # type: ignore[arg-type]
-                analysis=analysis,  # type: ignore[arg-type]
+                analysis=analysis,
                 store=store,
                 styles=styles_kb,
                 output_dir=PROJECT / "output" / "benchmark" / name,

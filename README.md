@@ -23,6 +23,7 @@ Ports & Adapters 分层：`core/`（业务编排）只依赖两个端口（`Anal
 |---|---|
 | 分析+推荐 | OpenAI、Anthropic、DeepSeek、火山豆包、阿里千问、智谱、Kimi 等（OpenAI 兼容端点共用一个适配器） |
 | 换发生成 | openai（gpt-image）、gemini（Nano Banana）、seedream（豆包 Ark）、grok |
+| 中转/聚合 | apimart（一把 key 通吃分析+生成，OpenAI 兼容） |
 
 不使用任何厂商 SDK，统一 httpx 异步直连 REST。每个环节声明 fallback 链，单厂商故障自动切换；未配置 key 的 provider 自动跳过。另内置 `mock` provider（显式指定即可无 key 跑通全链路，如 `make demo`）。
 
@@ -42,13 +43,15 @@ make down      # 停止
 **只改变量即可切模型**（`.env`，不动 models.json）：
 
 ```bash
-HAIRFIT_ANALYSIS_PROVIDER=zhipu        # openai/anthropic/deepseek/qwen/zhipu/doubao/kimi
-HAIRFIT_GENERATION_PROVIDER=seedream   # openai/gemini/seedream/grok
+HAIRFIT_ANALYSIS_PROVIDER=zhipu        # openai/anthropic/deepseek/qwen/zhipu/doubao/kimi/apimart
+HAIRFIT_GENERATION_PROVIDER=seedream   # openai/gemini/seedream/grok/apimart
 HAIRFIT_ZHIPU_API_KEY=xxx
-HAIRFIT_SEEDREAM_API_KEY=xxx
+HAIRFIT_DOUBAO_API_KEY=xxx             # seedream 与 doubao 同为火山方舟，共用这一把
 ```
 
-model 名不填自动用各厂商默认值（`HAIRFIT_*_MODEL` 可覆盖），`base_url` 不填走官方端点（`HAIRFIT_*_BASE_URL` 可指代理/中转）。key 变量名按 provider 自动推导（`HAIRFIT_{PROVIDER大写}_API_KEY`，如 `openai` → `HAIRFIT_OPENAI_API_KEY`，分析与生成共用同一个 OpenAI key）。
+key 按**供应商**组织（一个供应商一把 key，两段共用）：`HAIRFIT_{PROVIDER大写}_API_KEY`（如 `openai` → `HAIRFIT_OPENAI_API_KEY`，分析与生成共用同一个 OpenAI key）；`seedream` 复用 `HAIRFIT_DOUBAO_API_KEY`；中转平台 `apimart` 一把 key 通吃分析+生成（`HAIRFIT_APIMART_API_KEY`）。
+
+model 名不填自动用各厂商默认值（`HAIRFIT_*_MODEL` 可覆盖），`base_url` 不填走官方端点（`HAIRFIT_*_BASE_URL` 可指代理/中转）。
 
 常用命令一览：
 

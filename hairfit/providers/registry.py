@@ -18,6 +18,7 @@ from hairfit.providers.base import (
     GenerationProvider,
     ProviderUnavailable,
 )
+from hairfit.providers.image.apimart import build_apimart
 from hairfit.providers.image.gpt_image import build_gpt_image
 from hairfit.providers.image.grok import build_grok
 from hairfit.providers.image.mock import build_mock_image
@@ -37,6 +38,7 @@ _LLM_FACTORIES: dict[str, Callable[[ProviderConfig], AnalysisProvider]] = {
     "zhipu": build_openai_compat,
     "doubao": build_openai_compat,
     "kimi": build_openai_compat,
+    "apimart": build_openai_compat,  # 中转: OpenAI 兼容 Chat Completions
     "anthropic": build_anthropic,
     "mock": build_mock_llm,
 }
@@ -45,6 +47,7 @@ _IMAGE_FACTORIES: dict[str, Callable[[ProviderConfig], GenerationProvider]] = {
     "openai": build_gpt_image,
     "gemini": build_nano_banana,
     "seedream": build_seedream,
+    "apimart": build_apimart,
     "grok": build_grok,
     "mock": build_mock_image,
 }

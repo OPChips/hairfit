@@ -137,7 +137,8 @@ class TestEnvOverride:
         assert app.analysis.fallbacks == []
         assert app.generation.provider == "seedream"
         assert app.generation.model == "doubao-seedream-5-0-pro-260628"
-        assert app.generation.api_key_env == "HAIRFIT_SEEDREAM_API_KEY"
+        # seedream runs on Volcano Ark -> shares the doubao key (one key per vendor)
+        assert app.generation.api_key_env == "HAIRFIT_DOUBAO_API_KEY"
 
     def test_generation_openai_shares_name_with_analysis(self, monkeypatch: Any) -> None:
         """'openai' resolves per-segment: image default ≠ LLM default, same key env."""

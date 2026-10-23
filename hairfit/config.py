@@ -101,6 +101,8 @@ DEFAULT_BASE_URLS: dict[str, str] = {
     "doubao": "https://ark.cn-beijing.volces.com/api/v3",
     "kimi": "https://api.moonshot.cn/v1",
     "anthropic": "https://api.anthropic.com",
+    # relay/aggregator — one key serves analysis + generation
+    "apimart": "https://api.apimart.ai/v1",
     # image generation
     "gemini": "https://generativelanguage.googleapis.com/v1beta",
     "seedream": "https://ark.cn-beijing.volces.com/api/v3",
@@ -118,6 +120,7 @@ DEFAULT_MODELS: dict[str, str] = {
     "zhipu": "glm-5.3flash",  # natively multimodal (image/video), 1M ctx
     "doubao": "doubao-seed-2-0-lite-260428",  # Seed 2.0 全模态, Pro id 见方舟模型列表
     "kimi": "kimi-k3",  # natively multimodal; moonshot-v1-*-vision retired 2026-08
+    "apimart": "gpt-6.1",  # 中转上的 OpenAI 旗舰（OpenAI 兼容 Chat Completions）
     "mock": "mock",
 }
 
@@ -127,13 +130,23 @@ DEFAULT_IMAGE_MODELS: dict[str, str] = {
     "gemini": "gemini-3-pro-image-preview",  # Nano Banana Pro official id
     "seedream": "doubao-seedream-5-0-pro-260628",  # Seedream 5.0 Pro，方舟当前旗舰生图
     "grok": "grok-imagine-image-2.0",  # Grok Imagine Image 2.0，docs.x.ai REST 示例 id
+    "apimart": "gpt-image-2",  # apimart 图像 API 统一为异步任务（ext 别名: gpt-image-2-ext）
     "mock": "mock",
+}
+
+
+#: vendor-level key: providers on the same platform share one key env
+_KEY_ALIASES: dict[str, str] = {
+    # seedream 与 doubao 同为火山方舟（Ark），一把 key 通用
+    "seedream": "HAIRFIT_DOUBAO_API_KEY",
 }
 
 
 def key_env_for(provider: str) -> str:
     if provider == "mock":
         return ""
+    if provider in _KEY_ALIASES:
+        return _KEY_ALIASES[provider]
     return f"HAIRFIT_{provider.upper()}_API_KEY"
 
 
