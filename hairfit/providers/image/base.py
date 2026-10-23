@@ -15,7 +15,7 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
-from hairfit.config import ProviderConfig, resolve_api_key
+from hairfit.config import ProviderConfig, resolve_api_key, resolve_base_url
 from hairfit.log import get_logger
 from hairfit.providers.base import ProviderUnavailable
 
@@ -58,7 +58,7 @@ class ImageDriver:
         self.model = cfg.model
         self.params: dict[str, Any] = dict(cfg.params)
         self.api_key = resolve_api_key(cfg)
-        self.base_url = cfg.base_url.rstrip("/")
+        self.base_url = resolve_base_url(cfg)
         self._client = httpx.AsyncClient(timeout=timeout)
 
     async def aclose(self) -> None:

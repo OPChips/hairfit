@@ -91,3 +91,35 @@ class TestGenerationChain:
             from hairfit.config import resolve_api_key
 
             resolve_api_key(ProviderConfig(provider="x", model="m", api_key_env="HAIRFIT_NOPE"))
+
+
+class TestBaseUrlDefaults:
+    def test_configured_wins(self) -> None:
+        from hairfit.config import resolve_base_url
+
+        cfg = ProviderConfig(provider="openai", model="m", base_url="https://proxy.example.com/v1/")
+        assert resolve_base_url(cfg) == "https://proxy.example.com/v1"
+
+    def test_official_defaults(self) -> None:
+        from hairfit.config import resolve_base_url
+
+        assert (
+            resolve_base_url(ProviderConfig(provider="openai", model="m"))
+            == "https://api.openai.com/v1"
+        )
+        assert (
+            resolve_base_url(ProviderConfig(provider="anthropic", model="m"))
+            == "https://api.anthropic.com"
+        )
+        assert (
+            resolve_base_url(ProviderConfig(provider="nano_banana", model="m"))
+            == "https://generativelanguage.googleapis.com/v1beta"
+        )
+        assert resolve_base_url(ProviderConfig(provider="mock", model="m")) == ""
+
+    def test_adapters_use_default_when_omitted(self) -> None:
+        from hairfit.providers.image.gpt_image import GPTImageDriver
+        from hairfit.providers.llm.openai_compat import OpenAICompatLLM
+
+        assert OpenAICompatLLM(_cfg("openai")).base_url == "https://api.openai.com/v1"
+        assert GPTImageDriver(_cfg("gpt_image")).base_url == "https://api.openai.com/v1"

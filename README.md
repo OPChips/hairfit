@@ -26,6 +26,8 @@ Ports & Adapters 分层：`core/`（业务编排）只依赖两个端口（`Anal
 
 不使用任何厂商 SDK，统一 httpx 异步直连 REST。每个环节声明 fallback 链，单厂商故障自动切换。未配置 key 的 provider 自动跳过，mock 永远兜底——**无 key 也能跑通全链路**。
 
+`base_url` 可不填（默认各协议官方端点）；填自定义值即可走代理或中转网关。
+
 ## 快速开始（默认 Docker 部署）
 
 ```bash

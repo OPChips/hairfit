@@ -2,14 +2,12 @@
   "analysis": {
     "provider": "openai",
     "model": "gpt-6.1-sol",
-    "base_url": "https://api.openai.com/v1",
     "api_key_env": "HAIRFIT_OPENAI_API_KEY",
     "params": { "temperature": 0.25, "max_output_tokens": 2048 },
     "fallbacks": [
       {
         "provider": "anthropic",
         "model": "claude-sonnet-4-6",
-        "base_url": "https://api.anthropic.com",
         "api_key_env": "HAIRFIT_ANTHROPIC_API_KEY",
         "params": { "temperature": 0.25, "max_output_tokens": 2048 }
       },
@@ -19,28 +17,24 @@
   "generation": {
     "provider": "gpt_image",
     "model": "gpt-image-2.5",
-    "base_url": "https://api.openai.com/v1",
     "api_key_env": "HAIRFIT_GPT_IMAGE_API_KEY",
     "params": { "size": "1024x1536", "quality": "high" },
     "fallbacks": [
       {
         "provider": "nano_banana",
         "model": "gemini-3nano-image",
-        "base_url": "https://generativelanguage.googleapis.com/v1beta",
         "api_key_env": "HAIRFIT_GEMINI_API_KEY",
         "params": {}
       },
       {
         "provider": "seedream",
         "model": "seedream-5.0",
-        "base_url": "https://ark.cn-beijing.volces.com/api/v3",
         "api_key_env": "HAIRFIT_SEEDREAM_API_KEY",
         "params": {}
       },
       {
         "provider": "grok",
         "model": "grok-image",
-        "base_url": "https://api.x.ai/v1",
         "api_key_env": "HAIRFIT_GROK_API_KEY",
         "params": {}
       },

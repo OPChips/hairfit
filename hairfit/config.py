@@ -57,6 +57,33 @@ def load_config(path: Path | None = None) -> AppConfig:
     return AppConfig.load(path)
 
 
+#: official endpoints per provider protocol; base_url may be omitted in config
+DEFAULT_BASE_URLS: dict[str, str] = {
+    # LLM (multimodal analysis)
+    "openai": "https://api.openai.com/v1",
+    "openai_compat": "https://api.openai.com/v1",
+    "deepseek": "https://api.deepseek.com/v1",
+    "qwen": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "zhipu": "https://open.bigmodel.cn/api/paas/v4",
+    "doubao": "https://ark.cn-beijing.volces.com/api/v3",
+    "kimi": "https://api.moonshot.cn/v1",
+    "anthropic": "https://api.anthropic.com",
+    # image generation
+    "gpt_image": "https://api.openai.com/v1",
+    "nano_banana": "https://generativelanguage.googleapis.com/v1beta",
+    "seedream": "https://ark.cn-beijing.volces.com/api/v3",
+    "grok": "https://api.x.ai/v1",
+    "mock": "",
+}
+
+
+def resolve_base_url(cfg: ProviderConfig) -> str:
+    """Configured base_url wins (proxy/中转); otherwise the official endpoint."""
+    if cfg.base_url:
+        return cfg.base_url.rstrip("/")
+    return DEFAULT_BASE_URLS.get(cfg.provider, "")
+
+
 class MissingAPIKeyError(Exception):
     """The env var referenced by api_key_env is not set."""
 
