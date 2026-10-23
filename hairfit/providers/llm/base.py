@@ -16,7 +16,7 @@ from tenacity import (
 
 from hairfit.config import ProviderConfig, resolve_api_key, resolve_base_url
 from hairfit.log import get_logger
-from hairfit.providers.base import ProviderUnavailable
+from hairfit.providers.base import ProviderUnavailable, SchemaValidationError
 
 log = get_logger(__name__)
 
@@ -99,7 +99,7 @@ class LLMDriver:
         try:
             return json_schema(**json_loads_strict(text))
         except (ValidationError, ValueError) as exc:
-            raise ProviderUnavailable(
+            raise SchemaValidationError(
                 f"{self.name} returned invalid JSON for {json_schema.__name__}: {exc}"
             ) from exc
 

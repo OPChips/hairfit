@@ -72,6 +72,38 @@ class TestRecommend:
         with pytest.raises(RecommendError, match="推荐调用失败"):
             await svc.analyze(PHOTO, FACES, STYLES)
 
+    async def test_schema_violation_retried_with_errors(self) -> None:
+        """null 字段等 schema 违规 -> 带校验错误重试（gpt-6.1-sol 实测案例）。"""
+        llm = _mock_llm()
+        original = llm._respond
+        state = {"n": 0}
+
+        def null_volume_then_valid(prompt: str) -> str:
+            state["n"] += 1
+            text = original(prompt)
+            if state["n"] == 1:
+                d = json.loads(text)
+                d["face_analysis"]["hair_volume"] = None
+                return json.dumps(d, ensure_ascii=False)
+            return text
+
+        llm._respond = null_volume_then_valid  # type: ignore[method-assign]
+        svc = RecommendService(llm)
+        res = await svc.analyze(PHOTO, FACES, STYLES)
+        assert res.face_analysis.hair_volume in {"thin", "medium", "thick"}
+        assert state["n"] == 2  # first attempt failed schema, second served
+
+    async def test_schema_violation_exhausted_raises(self) -> None:
+        llm = _mock_llm()
+        original = llm._respond
+        llm._respond = lambda prompt: (  # type: ignore[method-assign]
+            lambda d: json.dumps(d | {"face_analysis": d["face_analysis"] | {"hairline": None}},
+                                 ensure_ascii=False)
+        )(json.loads(original(prompt)))
+        svc = RecommendService(llm, max_retries=1)
+        with pytest.raises(RecommendError, match="校验失败"):
+            await svc.analyze(PHOTO, FACES, STYLES)
+
 
 class TestQC:
     async def test_pass(self) -> None:
@@ -180,3 +212,32 @@ class TestGenerate:
         svc = await self._service(tmp_path)
         with pytest.raises(KeyError):
             await svc.create_and_run(PHOTO, ["nope"])
+
+    async def test_size_follows_input_aspect(self, tmp_path: Path) -> None:
+        """输出尺寸跟随输入宽比（1:1 方图 -> 1024x1024，而非默认竖版）。"""
+        from io import BytesIO
+
+        from PIL import Image as PILImage
+
+        class SizeSpy(MockImageDriver):
+            sizes: list[str] = []
+
+            async def edit(
+                self, prompt: str, images: list[bytes], size: str = "1024x1536"
+            ) -> bytes:
+                self.sizes.append(size)
+                return await super().edit(prompt, images, size)
+
+        spy = SizeSpy(ProviderConfig(provider="mock", model="m"))
+        store = await JobStore.open(":memory:")
+        svc = GenerateService(
+            generation=spy,
+            analysis=_mock_llm(),
+            store=store,
+            styles=STYLES,
+            output_dir=tmp_path / "out",
+        )
+        buf = BytesIO()
+        PILImage.new("RGB", (2000, 2000), (120, 120, 120)).save(buf, format="PNG")
+        await svc.create_and_run(buf.getvalue(), ["crew_cut"])
+        assert spy.sizes == ["1024x1024"]

@@ -5,7 +5,11 @@ from __future__ import annotations
 from typing import cast
 
 from hairfit.prompts import build_recommendation_prompt
-from hairfit.providers.base import AnalysisProvider, ProviderUnavailable
+from hairfit.providers.base import (
+    AnalysisProvider,
+    ProviderUnavailable,
+    SchemaValidationError,
+)
 from hairfit.schemas import FaceShapesKB, HairstylesKB, RecommendationResult
 
 
@@ -39,6 +43,10 @@ class RecommendService:
                     RecommendationResult,
                     await self.analysis.analyze(attempt_prompt, [photo], RecommendationResult),
                 )
+            except SchemaValidationError as exc:
+                # served but output invalid -> retry with the validation errors
+                last_error = str(exc)[:300]
+                continue
             except ProviderUnavailable as exc:
                 raise RecommendError(f"推荐调用失败: {exc}") from exc
             problem = self._check(result, valid_ids)

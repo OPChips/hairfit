@@ -32,6 +32,25 @@ log = get_logger(__name__)
 ProgressFn = Callable[[Job], Awaitable[None]]
 
 
+def _pick_size(photo: bytes) -> str:
+    """Output size follows the input aspect ratio so the composition is kept.
+
+    Values from the least-common-denominator set (OpenAI gpt-image sizes);
+    undecodable bytes fall back to the historical portrait default.
+    """
+    try:
+        with Image.open(BytesIO(photo)) as im:
+            w, h = im.size
+    except (OSError, ValueError):
+        return "1024x1536"
+    ratio = w / h
+    if ratio > 1.15:
+        return "1536x1024"
+    if ratio < 0.87:
+        return "1024x1536"
+    return "1024x1024"
+
+
 class GenerateService:
     def __init__(
         self,
@@ -77,6 +96,7 @@ class GenerateService:
     async def _generate_one(self, photo: bytes, style_id: str) -> StyledResult:
         style = self.styles.get(style_id)
         prompt = build_generation_prompt(style)
+        size = _pick_size(photo)
         try:
             ref = _ref_bytes(style.ref_image)
         except (FileNotFoundError, OSError) as exc:
@@ -85,7 +105,7 @@ class GenerateService:
 
         # round 1
         try:
-            image = await self.generation.edit(prompt, [photo, ref])
+            image = await self.generation.edit(prompt, [photo, ref], size)
         except ProviderUnavailable as exc:
             log.error("generation_failed", style=style_id, error=str(exc))
             return StyledResult(style_id=style_id, error=str(exc))
@@ -98,7 +118,7 @@ class GenerateService:
         weak = "face" if qc.face_consistency < 6 else "style"
         retry_prompt = prompt + build_retry_suffix(qc.reason, weak)
         try:
-            image2 = await self.generation.edit(retry_prompt, [photo, ref])
+            image2 = await self.generation.edit(retry_prompt, [photo, ref], size)
         except ProviderUnavailable as exc:
             log.warning("retry_failed_deliver_degraded", style=style_id, error=str(exc))
             return await self._save(style_id, [image], qc, retry_used=True, degraded=True)

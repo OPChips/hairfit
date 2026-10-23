@@ -11,6 +11,13 @@ class ProviderUnavailable(Exception):
     """A provider cannot serve (missing key, network down, all retries failed)."""
 
 
+class SchemaValidationError(ProviderUnavailable):
+    """The provider served but its output violated the expected schema.
+
+    Retryable with a corrective instruction — callers may re-ask the model.
+    """
+
+
 @runtime_checkable
 class AnalysisProvider(Protocol):
     """Multimodal/text LLM: prompt (+optional images) -> validated pydantic model."""

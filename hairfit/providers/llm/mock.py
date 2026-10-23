@@ -11,7 +11,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from hairfit.config import ProviderConfig
 from hairfit.providers.llm.base import strip_json_fences
@@ -43,7 +43,12 @@ class MockLLM:
         if self.invalid_json_times > 0:
             self.invalid_json_times -= 1
             text = "这不是 JSON"
-        return json_schema(**json.loads(strip_json_fences(text)))
+        try:
+            return json_schema(**json.loads(strip_json_fences(text)))
+        except (ValidationError, ValueError) as exc:
+            from hairfit.providers.base import SchemaValidationError
+
+            raise SchemaValidationError(f"{self.name} returned invalid JSON: {exc}") from exc
 
     def _respond(self, prompt: str) -> str:
         if "发型顾问" in prompt:
