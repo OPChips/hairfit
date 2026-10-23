@@ -39,6 +39,17 @@ make down      # 停止
 
 服务跑在 `http://127.0.0.1:8321`（Swagger: `/docs`）。API key 填在 `.env`（模板 `.env.example`），改完后 `make restart` 生效。生成图与 job 数据库持久化在 Docker 数据卷 `hairfit-data` 中。
 
+**只改变量即可切模型**（`.env`，不动 models.json）：
+
+```bash
+HAIRFIT_ANALYSIS_PROVIDER=zhipu        # openai/anthropic/deepseek/qwen/zhipu/doubao/kimi
+HAIRFIT_GENERATION_PROVIDER=seedream   # gpt_image/nano_banana/seedream/grok
+HAIRFIT_ZHIPU_API_KEY=xxx
+HAIRFIT_SEEDREAM_API_KEY=xxx
+```
+
+model 名不填自动用各厂商默认值（`HAIRFIT_*_MODEL` 可覆盖），`base_url` 不填走官方端点（`HAIRFIT_*_BASE_URL` 可指代理/中转）。key 变量名按 provider 自动推导（`HAIRFIT_{PROVIDER大写}_API_KEY`，nano_banana 例外用 `HAIRFIT_GEMINI_API_KEY`）。
+
 常用命令一览：
 
 | 命令 | 作用 |
