@@ -121,7 +121,7 @@ DEFAULT_MODELS: dict[str, str] = {
     "kimi": "kimi-k3",  # natively multimodal; moonshot-v1-*-vision retired 2026-08
     "gpt_image": "gpt-image-2.5",  # GPT Images 2.5, API since 2026-09
     "nano_banana": "gemini-3-pro-image-preview",  # Nano Banana Pro official id
-    "seedream": "doubao-seedream-4.0",  # confirmed Ark id; 5.0 Lite id 见方舟模型列表
+    "seedream": "doubao-seedream-5-0-pro-260628",  # Seedream 5.0 Pro，方舟当前旗舰生图
     "grok": "grok-image",  # 未确认 — Grok Imagine 的 id 以 docs.x.ai models 页为准
     "mock": "mock",
 }

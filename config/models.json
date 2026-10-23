@@ -28,7 +28,7 @@
       },
       {
         "provider": "seedream",
-        "model": "doubao-seedream-4.0",
+        "model": "doubao-seedream-5-0-pro-260628",
         "api_key_env": "HAIRFIT_SEEDREAM_API_KEY",
         "params": {}
       },
