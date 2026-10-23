@@ -22,13 +22,13 @@
     "fallbacks": [
       {
         "provider": "nano_banana",
-        "model": "gemini-3nano-image",
+        "model": "gemini-3-pro-image-preview",
         "api_key_env": "HAIRFIT_GEMINI_API_KEY",
         "params": {}
       },
       {
         "provider": "seedream",
-        "model": "seedream-5.0",
+        "model": "doubao-seedream-4.0",
         "api_key_env": "HAIRFIT_SEEDREAM_API_KEY",
         "params": {}
       },

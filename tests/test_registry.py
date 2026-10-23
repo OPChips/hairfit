@@ -136,7 +136,7 @@ class TestEnvOverride:
         assert app.analysis.api_key_env == "HAIRFIT_ZHIPU_API_KEY"
         assert [p.provider for p in app.analysis.fallbacks] == ["mock"]
         assert app.generation.provider == "seedream"
-        assert app.generation.model == "seedream-5.0"
+        assert app.generation.model == "doubao-seedream-4.0"
         assert app.generation.api_key_env == "HAIRFIT_SEEDREAM_API_KEY"
 
     def test_explicit_model_and_base_url_win(self, monkeypatch: Any) -> None:

@@ -119,10 +119,10 @@ DEFAULT_MODELS: dict[str, str] = {
     "zhipu": "glm-5.3flash",  # natively multimodal (image/video), 1M ctx
     "doubao": "doubao-seed-1-6-vision-250815",
     "kimi": "kimi-k3",  # natively multimodal; moonshot-v1-*-vision retired 2026-08
-    "gpt_image": "gpt-image-2.5",
-    "nano_banana": "gemini-3nano-image",
-    "seedream": "seedream-5.0",
-    "grok": "grok-image",
+    "gpt_image": "gpt-image-2.5",  # GPT Images 2.5, API since 2026-09
+    "nano_banana": "gemini-3-pro-image-preview",  # Nano Banana Pro official id
+    "seedream": "doubao-seedream-4.0",  # confirmed Ark id; 5.0 Lite id 见方舟模型列表
+    "grok": "grok-image",  # 未确认 — Grok Imagine 的 id 以 docs.x.ai models 页为准
     "mock": "mock",
 }
 
