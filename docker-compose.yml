@@ -1,0 +1,14 @@
+services:
+  hairfit:
+    build: .
+    image: hairfit:latest
+    ports:
+      - "8321:8321"
+    env_file:
+      - .env
+    volumes:
+      - hairfit-data:/data
+    restart: unless-stopped
+
+volumes:
+  hairfit-data:

@@ -46,7 +46,7 @@ def cmd_recommend(args: argparse.Namespace) -> int:
     photo = Path(args.photo).read_bytes()
 
     async def run() -> RecommendationResult:
-        cfg = load_config(Path(args.config))
+        cfg = load_config(Path(args.config) if args.config else None)
         chain = build_analysis_chain(cfg)
         svc = RecommendService(chain)
         from hairfit.kb import load_face_shapes, load_hairstyles
@@ -73,7 +73,7 @@ def cmd_generate(args: argparse.Namespace) -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     async def run() -> int:
-        cfg = load_config(Path(args.config))
+        cfg = load_config(Path(args.config) if args.config else None)
         store = await JobStore.open(Path(args.db))
         await store.init_db()
         svc = GenerateService(

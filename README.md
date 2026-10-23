@@ -26,23 +26,36 @@ Ports & Adapters 分层：`core/`（业务编排）只依赖两个端口（`Anal
 
 不使用任何厂商 SDK，统一 httpx 异步直连 REST。每个环节声明 fallback 链，单厂商故障自动切换。未配置 key 的 provider 自动跳过，mock 永远兜底——**无 key 也能跑通全链路**。
 
-## 快速开始
+## 快速开始（默认 Docker 部署）
+
+```bash
+make up        # 构建 + 后台启动 + 健康检查（首次自动生成 .env，无 key 也能跑 mock 链路）
+make logs      # 跟踪日志
+make health    # 服务与各 provider key 状态
+make down      # 停止
+```
+
+服务跑在 `http://127.0.0.1:8321`（Swagger: `/docs`）。API key 填在 `.env`（模板 `.env.example`），改完后 `make restart` 生效。生成图与 job 数据库持久化在 Docker 数据卷 `hairfit-data` 中。
+
+常用命令一览：
+
+| 命令 | 作用 |
+|---|---|
+| `make up` / `make down` | 部署 / 停止 |
+| `make restart` | 改代码或 `.env` 后重建重启 |
+| `make logs` / `make health` | 日志 / 健康检查 |
+| `make demo` | 容器内无 key 演示（mock 链路生成一张样图） |
+
+### 不用 Docker（本地 pip）
 
 ```bash
 python3.12+ -m venv .venv && source .venv/bin/activate
 pip install -e ".[server,dev]"
 
-# 1. 校验知识库
-hairfit validate-kb
-
-# 2. 无 key 演示（mock 链路）
-hairfit recommend tests/fixtures/sample_face.png --config <(echo '{"analysis":{"provider":"mock","model":"m","params":{}},"generation":{"provider":"mock","model":"m","params":{}}}')
-
-# 3. 配置 key 后用真实模型
-cp .env.example .env   # 填入你的 key
+hairfit validate-kb      # 校验知识库
 hairfit recommend face.jpg
 hairfit generate face.jpg --styles textured_crop,crew_cut --out output/
-hairfit serve          # http://127.0.0.1:8321/docs
+hairfit serve            # http://127.0.0.1:8321/docs
 ```
 
 ## API
@@ -79,8 +92,8 @@ python regression/benchmark.py               # 各 provider x 测试脸评分榜
 ## 开发
 
 ```bash
-pytest            # 单元 + 契约 + E2E（全 mock，无需 key）
-ruff check . && mypy hairfit
+make test         # 单元 + 契约 + E2E（全 mock，无需 key）
+make lint         # ruff + mypy
 ```
 
 ## 免责声明

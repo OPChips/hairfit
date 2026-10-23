@@ -40,6 +40,33 @@ class TestCLI:
         out = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
         assert len(out["recommended"]) == 3
 
+    def test_recommend_default_config(self, tmp_path: Path, capsys: object) -> None:
+        """--config omitted -> repo default config (chain ends in mock, key-less)."""
+        photo = _photo_png(tmp_path / "me.png")
+        code = main(["recommend", str(photo)])
+        assert code == 0
+        out = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
+        assert len(out["recommended"]) >= 3
+
+    def test_generate_default_config(self, tmp_path: Path) -> None:
+        """--config omitted -> default config; generate must not crash on None path."""
+        photo = _photo_png(tmp_path / "me.png")
+        out_dir = tmp_path / "out"
+        code = main(
+            [
+                "generate",
+                str(photo),
+                "--styles",
+                "textured_crop",
+                "--out",
+                str(out_dir),
+                "--db",
+                str(tmp_path / "t.db"),
+            ]
+        )
+        assert code == 0
+        assert (out_dir / "textured_crop" / "0.png").exists()
+
     def test_generate_mock(self, tmp_path: Path) -> None:
         photo = _photo_png(tmp_path / "me.png")
         out_dir = tmp_path / "out"
