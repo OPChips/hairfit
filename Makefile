@@ -8,6 +8,10 @@ COMPOSE := docker compose
 up:
 	@test -f .env || cp .env.example .env
 	$(COMPOSE) up -d --build
+	@echo "waiting for service..."
+	@for i in $$(seq 1 30); do \
+		curl -sf http://127.0.0.1:8321/healthz >/dev/null 2>&1 && break || sleep 1; \
+	done
 	@$(MAKE) --no-print-directory health
 
 ## 停止
@@ -27,8 +31,8 @@ health:
 	@curl -s http://127.0.0.1:8321/healthz && echo
 	@curl -s http://127.0.0.1:8321/healthz/providers | python3 -m json.tool
 
-## 无 key 演示：容器内走 mock 链路生成一张图到挂载卷
-demo:
+## 无 key 演示：自动起服务（幂等），容器内走 mock 链路生成一张图到挂载卷
+demo: up
 	@docker compose exec hairfit sh -c "\
 	  python -c \"from PIL import Image; Image.new('RGB',(400,500),(170,140,120)).save('/tmp/me.png')\" && \
 	  hairfit generate /tmp/me.png --styles textured_crop --out /data/output/demo"

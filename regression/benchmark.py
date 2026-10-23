@@ -78,25 +78,28 @@ async def run_benchmark(faces_dir: Path, style_ids: list[str], dry_run: bool) ->
     ]
     for name, driver in collect_generation_providers(app, dry_run):
         store = await JobStore.open(":memory:")
-        svc = GenerateService(
-            generation=driver,  # type: ignore[arg-type]
-            analysis=analysis,  # type: ignore[arg-type]
-            store=store,
-            styles=styles_kb,
-            output_dir=PROJECT / "output" / "benchmark" / name,
-        )
-        scores: list[tuple[int, int]] = []
-        ok = 0
-        total = 0
-        for face in faces:
-            photo = face.read_bytes()
-            job = await svc.create_and_run(photo, style_ids)
-            for r in job.results:
-                total += 1
-                if r.error is None:
-                    ok += 1
-                if r.qc_face_consistency is not None:
-                    scores.append((r.qc_face_consistency, r.qc_style_match or 0))
+        try:
+            svc = GenerateService(
+                generation=driver,  # type: ignore[arg-type]
+                analysis=analysis,  # type: ignore[arg-type]
+                store=store,
+                styles=styles_kb,
+                output_dir=PROJECT / "output" / "benchmark" / name,
+            )
+            scores: list[tuple[int, int]] = []
+            ok = 0
+            total = 0
+            for face in faces:
+                photo = face.read_bytes()
+                job = await svc.create_and_run(photo, style_ids)
+                for r in job.results:
+                    total += 1
+                    if r.error is None:
+                        ok += 1
+                    if r.qc_face_consistency is not None:
+                        scores.append((r.qc_face_consistency, r.qc_style_match or 0))
+        finally:
+            await store.close()
         if scores:
             face_avg = sum(s[0] for s in scores) / len(scores)
             style_avg = sum(s[1] for s in scores) / len(scores)

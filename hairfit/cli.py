@@ -75,15 +75,18 @@ def cmd_generate(args: argparse.Namespace) -> int:
     async def run() -> int:
         cfg = load_config(Path(args.config) if args.config else None)
         store = await JobStore.open(Path(args.db))
-        await store.init_db()
-        svc = GenerateService(
-            generation=build_generation_chain(cfg),
-            analysis=build_analysis_chain(cfg),
-            store=store,
-            styles=load_hairstyles(),
-            output_dir=out_dir,
-        )
-        job = await svc.create_and_run(photo=photo, style_ids=args.styles.split(","))
+        try:
+            await store.init_db()
+            svc = GenerateService(
+                generation=build_generation_chain(cfg),
+                analysis=build_analysis_chain(cfg),
+                store=store,
+                styles=load_hairstyles(),
+                output_dir=out_dir,
+            )
+            job = await svc.create_and_run(photo=photo, style_ids=args.styles.split(","))
+        finally:
+            await store.close()
         if job.status.value == "failed":
             print(f"生成失败: {job.error}", file=sys.stderr)
             return 1
