@@ -44,6 +44,8 @@ class OpenAICompatLLM(LLMDriver):
         payload: dict[str, Any] = {
             "model": self.model,
             "messages": [{"role": "user", "content": content}],
+            # some relays (e.g. apimart) force SSE unless stream is explicit
+            "stream": False,
         }
         payload.update(self.params)  # temperature, max_tokens, ...
         return payload, self._headers()

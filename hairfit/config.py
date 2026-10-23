@@ -120,7 +120,7 @@ DEFAULT_MODELS: dict[str, str] = {
     "zhipu": "glm-5.3flash",  # natively multimodal (image/video), 1M ctx
     "doubao": "doubao-seed-2-0-lite-260428",  # Seed 2.0 全模态, Pro id 见方舟模型列表
     "kimi": "kimi-k3",  # natively multimodal; moonshot-v1-*-vision retired 2026-08
-    "apimart": "gpt-6.1",  # 中转上的 OpenAI 旗舰（OpenAI 兼容 Chat Completions）
+    "apimart": "gpt-6.1-sol",  # 中转上的 OpenAI 旗舰（实测 /v1/models 确认，无裸 gpt-6.1）
     "mock": "mock",
 }
 

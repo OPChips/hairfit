@@ -43,7 +43,7 @@ class TestKeyUnification:
         monkeypatch.setenv("HAIRFIT_ANALYSIS_PROVIDER", "apimart")
         monkeypatch.setenv("HAIRFIT_GENERATION_PROVIDER", "apimart")
         app = AppConfig.load()
-        assert app.analysis.model == "gpt-6.1"
+        assert app.analysis.model == "gpt-6.1-sol"
         assert app.generation.model == "gpt-image-2"
         assert app.analysis.api_key_env == "HAIRFIT_APIMART_API_KEY"
         assert app.generation.api_key_env == "HAIRFIT_APIMART_API_KEY"
