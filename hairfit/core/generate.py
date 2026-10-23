@@ -9,7 +9,10 @@ Design rules implemented here (design.md section 5):
 from __future__ import annotations
 
 from collections.abc import Awaitable, Callable
+from io import BytesIO
 from pathlib import Path
+
+from PIL import Image
 
 from hairfit.core.jobs import JobStore
 from hairfit.core.qc import QCService
@@ -116,7 +119,10 @@ class GenerateService:
         style_dir = self.output_dir / style_id
         style_dir.mkdir(parents=True, exist_ok=True)
         for i, img in enumerate(images):
-            p = style_dir / f"{i}.png"
+            # extension follows the actual bytes (e.g. apimart returns JPEG)
+            with Image.open(BytesIO(img)) as im:
+                fmt = (im.format or "PNG").lower()
+            p = style_dir / f"{i}.{'jpg' if fmt == 'jpeg' else fmt}"
             p.write_bytes(img)
             paths.append(str(p))
         return StyledResult(
