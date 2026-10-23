@@ -34,7 +34,7 @@
       },
       {
         "provider": "grok",
-        "model": "grok-image",
+        "model": "grok-imagine-image-2.0",
         "api_key_env": "HAIRFIT_GROK_API_KEY",
         "params": {}
       },

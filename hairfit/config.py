@@ -117,12 +117,12 @@ DEFAULT_MODELS: dict[str, str] = {
     "deepseek": "deepseek-flash",  # V4.1 Flash, natively multimodal
     "qwen": "qwen3.8-flash",  # latest multimodal flash on Bailian
     "zhipu": "glm-5.3flash",  # natively multimodal (image/video), 1M ctx
-    "doubao": "doubao-seed-1-6-vision-250815",
+    "doubao": "doubao-seed-2-0-lite-260428",  # Seed 2.0 全模态, Pro id 见方舟模型列表
     "kimi": "kimi-k3",  # natively multimodal; moonshot-v1-*-vision retired 2026-08
     "gpt_image": "gpt-image-2.5",  # GPT Images 2.5, API since 2026-09
     "nano_banana": "gemini-3-pro-image-preview",  # Nano Banana Pro official id
     "seedream": "doubao-seedream-5-0-pro-260628",  # Seedream 5.0 Pro，方舟当前旗舰生图
-    "grok": "grok-image",  # 未确认 — Grok Imagine 的 id 以 docs.x.ai models 页为准
+    "grok": "grok-imagine-image-2.0",  # Grok Imagine Image 2.0，docs.x.ai REST 示例 id
     "mock": "mock",
 }
 
