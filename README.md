@@ -1,5 +1,7 @@
 # HairFit — AI 发型推荐与虚拟换发
 
+![License](https://img.shields.io/badge/license-MIT-green) ![Python](https://img.shields.io/badge/python-3.12%2B-blue) ![Tests](https://img.shields.io/badge/tests-mock%20E2E-brightgreen)
+
 多模态大模型分析脸型并推荐发型，图像编辑模型将用户照片换成推荐发型。BYOK（用户自带 API key），provider 全部可配置可替换。
 
 > 设计文档：[docs/design.md](docs/design.md) · 实现计划：[docs/plans/2026-10-23-mvp-implementation.md](docs/plans/2026-10-23-mvp-implementation.md)
@@ -21,7 +23,6 @@
 ![试戴结果](docs/screenshots/web-step3-results.jpg)
 
 ![对比报告卡](docs/screenshots/web-step4-report.jpg)
-
 
 ## 架构
 
@@ -49,6 +50,8 @@ Ports & Adapters 分层：`core/`（业务编排）只依赖两个端口（`Anal
 `base_url` 可不填（默认各协议官方端点）；填自定义值即可走代理或中转网关。
 
 ## 快速开始（默认 Docker 部署）
+
+> 环境要求：Docker（含 compose 插件）。不用 Docker 见[下方](#不用-docker本地-pip)（需 Python 3.12+）。
 
 ```bash
 make up        # 构建 + 后台启动 + 健康检查（首次自动生成 .env）
@@ -121,14 +124,12 @@ http://127.0.0.1:8321/
 
 `kb/hairstyles.json`（20 款）+ `kb/face_shapes.json`（7 型规则），分类体系均有专业依据（见各 JSON `references` 字段与设计文档 3.5 节）。新增发型 = 一条元数据 + 一张参考图，零代码。
 
-参考图规范与自举生成：
+参考图由自举脚本预生成（标准影棚风格）；如需重生成或替换为人工摄影图：
 
 ```bash
 python scripts/bootstrap_refs.py --dry-run   # mock 自检
 python scripts/bootstrap_refs.py             # 真实模型生成标准影棚参考图
 ```
-
-`assets/styles/` 当前为占位图，用自举脚本或人工摄影图替换。
 
 ## 基准测试
 
@@ -148,3 +149,7 @@ make lint         # ruff + mypy
 ## 免责声明
 
 仅供学习研究。请仅上传本人照片；API key 由使用者自行配置，遵守各模型厂商使用政策；原图即用即删，本项目不存储人脸数据。
+
+## License
+
+[MIT](LICENSE) © opchips。欢迎 Issue 与 PR。
