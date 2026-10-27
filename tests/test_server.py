@@ -112,3 +112,47 @@ class TestServerE2E:
         with TestClient(app) as client:
             r = client.post("/v1/report", data={"job_id": "ghost"})
             assert r.status_code == 404
+
+
+class TestWebClient:
+    def test_index_and_static(self, tmp_path: Path) -> None:
+        app = _mock_app(tmp_path)
+        with TestClient(app) as client:
+            r = client.get("/")
+            assert r.status_code == 200
+            assert "HairFit" in r.text
+            assert client.get("/app.js").status_code == 200
+            assert client.get("/style.css").status_code == 200
+            assert client.get("/manifest.webmanifest").status_code == 200
+
+    def test_styles_endpoint(self, tmp_path: Path) -> None:
+        app = _mock_app(tmp_path)
+        with TestClient(app) as client:
+            styles = client.get("/v1/styles").json()
+            assert len(styles) == 20
+            one = styles[0]
+            assert set(one) == {"id", "name", "gender", "description", "ref_image"}
+            assert one["ref_image"].startswith("/assets/styles/")
+            # ref image actually served
+            assert client.get(one["ref_image"]).status_code == 200
+
+    def test_result_image_endpoint(self, tmp_path: Path) -> None:
+        app = _mock_app(tmp_path)
+        with TestClient(app) as client:
+            gen = client.post(
+                "/v1/generate",
+                data={"style_ids": "crew_cut"},
+                files={"photo": ("me.png", _photo_png(), "image/png")},
+            )
+            job_id = gen.json()["job_id"]
+            for _ in range(100):
+                job = client.get(f"/v1/jobs/{job_id}").json()
+                if job["status"] in ("done", "failed"):
+                    break
+                asyncio.run(asyncio.sleep(0.01))
+            r = client.get(f"/v1/jobs/{job_id}/results/crew_cut")
+            assert r.status_code == 200
+            assert r.headers["content-type"].startswith("image/")
+            assert client.get(f"/v1/jobs/{job_id}/results/nope").status_code == 404
+            assert client.get(f"/v1/jobs/{job_id}/results/crew_cut?idx=9").status_code == 404
+            assert client.get("/v1/jobs/ghost/results/crew_cut").status_code == 404

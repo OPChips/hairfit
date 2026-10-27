@@ -10,7 +10,8 @@ from pathlib import Path
 
 import httpx
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import FileResponse, JSONResponse, Response
+from fastapi.staticfiles import StaticFiles
 
 from hairfit.config import AppConfig, MissingAPIKeyError, resolve_api_key
 from hairfit.core.generate import GenerateService
@@ -27,6 +28,10 @@ from hairfit.schemas import RecommendationResult
 log = get_logger(__name__)
 
 DB_PATH = Path("hairfit.db")
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+WEB_DIR = Path(__file__).resolve().parent / "web"
+ASSETS_DIR = PROJECT_ROOT / "assets"
 
 
 async def _photo_bytes(photo: UploadFile | None, photo_url: str) -> bytes:
@@ -205,5 +210,42 @@ def create_app(cfg: AppConfig | None = None, db_path: Path | None = None) -> Fas
             )
         png = build_report(analysis, results, loader, rejected=rejected_list)
         return Response(content=png, media_type="image/png")
+
+    @app.get("/v1/styles")
+    async def list_styles() -> list[dict[str, str]]:
+        """Style metadata for clients (name + reference image URL)."""
+        return [
+            {
+                "id": s.id,
+                "name": s.name,
+                "gender": s.gender,
+                "description": s.description,
+                "ref_image": "/" + s.ref_image,
+            }
+            for s in app.state.styles.items
+        ]
+
+    @app.get("/v1/jobs/{job_id}/results/{style_id}")
+    async def result_image(job_id: str, style_id: str, idx: int = 0) -> Response:
+        """Serve a generated try-on image (web client has no filesystem access)."""
+        job = await app.state.store.get(job_id)
+        if job is None:
+            raise HTTPException(status_code=404, detail="job 不存在")
+        for r in job.results:
+            if r.style_id != style_id:
+                continue
+            if r.error or not r.image_paths:
+                raise HTTPException(status_code=404, detail="该款式无生成结果")
+            if not 0 <= idx < len(r.image_paths):
+                raise HTTPException(status_code=404, detail="图片序号越界")
+            path = Path(r.image_paths[idx])
+            if not path.exists():
+                path = PROJECT_ROOT / path
+            return FileResponse(path)
+        raise HTTPException(status_code=404, detail=f"job 中无款式 {style_id}")
+
+    # static mounts last: API routes above take precedence
+    app.mount("/assets", StaticFiles(directory=ASSETS_DIR), name="assets")
+    app.mount("/", StaticFiles(directory=WEB_DIR, html=True), name="web")
 
     return app

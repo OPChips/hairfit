@@ -1,0 +1,13 @@
+{
+  "name": "HairFit · AI 发型试戴",
+  "short_name": "HairFit",
+  "description": "AI 脸型分析与虚拟换发",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0c",
+  "theme_color": "#0a0a0c",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

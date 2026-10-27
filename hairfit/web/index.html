@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0c">
+  <title>HairFit · 髮型试镜</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- 顶部跑马灯 -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>HAIRFIT® AI TRY-ON /// 先试再剪 TRY BEFORE CUT /// FACE SCAN × STYLE MATCH /// 拒绝剪坏头 NO BAD HAIR DAYS ///&nbsp;</span>
+      <span>HAIRFIT® AI TRY-ON /// 先试再剪 TRY BEFORE CUT /// FACE SCAN × STYLE MATCH /// 拒绝剪坏头 NO BAD HAIR DAYS ///&nbsp;</span>
+    </div>
+  </div>
+
+  <div class="layout">
+    <!-- 刊头栏：桌面左侧竖排，移动端顶部横排 -->
+    <header class="masthead">
+      <div class="wordmark">
+        <span class="wordmark-lat">HAIR<b>FIT</b></span>
+        <span class="wordmark-zh">髮型试镜</span>
+      </div>
+      <p class="tagline">AI FACE SCAN × VIRTUAL TRY-ON<br>你的私人发廊顾问</p>
+      <nav class="chapters" aria-label="进度">
+        <span class="chapter" data-step="1"><i>01</i>上传照片</span>
+        <span class="chapter" data-step="2"><i>02</i>挑选款式</span>
+        <span class="chapter" data-step="3"><i>03</i>试镜成果</span>
+      </nav>
+      <p class="masthead-foot">仅供个人体验参考<br>请仅上传本人照片</p>
+    </header>
+
+    <!-- 内容区 -->
+    <main class="stage">
+      <!-- 01 · 上传 -->
+      <section id="step1" class="act active">
+        <p class="kicker">// STEP 01 — UPLOAD</p>
+        <h1 class="display">下一款发型，<br><em>先试再剪</em>。</h1>
+        <p class="lede">一张正面照，AI 读懂你的脸型与发质，<br class="br-desktop">几分钟试遍发廊 lookbook。</p>
+
+        <div id="upload-area">
+          <label class="frame" for="photo-input">
+            <input type="file" id="photo-input" accept="image/*">
+            <span class="cropmarks" aria-hidden="true"></span>
+            <span class="frame-inner">
+              <span class="frame-icon">+</span>
+              <span class="frame-title">在此放置照片</span>
+              <span class="frame-sub">点击拍照或从相册选取 · 正面、露出完整脸型效果最佳</span>
+            </span>
+          </label>
+        </div>
+
+        <div id="preview-wrap" hidden>
+          <figure class="polaroid">
+            <img id="preview" alt="照片预览">
+            <figcaption>已选照片 <button id="btn-reanalyze" class="linklike">重选</button></figcaption>
+          </figure>
+          <div class="actions">
+            <button id="btn-analyze" class="btn-primary"><span>开始分析</span><i>→</i></button>
+          </div>
+        </div>
+
+        <p id="analyze-status" class="running" hidden><span class="dot-spin" aria-hidden="true"></span>AI 分析中 · 约 10–20 秒，正在比对 7 种脸型档案</p>
+        <p class="privacy-note">照片仅用于本次分析，服务端不作持久化。</p>
+      </section>
+
+      <!-- 02 · 挑款 -->
+      <section id="step2" class="act" hidden>
+        <p class="kicker">// STEP 02 — FACE SCAN</p>
+        <h2 class="display-sm">你的脸部档案</h2>
+        <div id="face-card" class="dossier"></div>
+
+        <p class="kicker">// PICK YOUR LOOKS</p>
+        <h2 class="display-sm">为你锁定 <span id="rec-count" class="accent-num">0</span> 款</h2>
+        <div id="style-list" class="lookbook"></div>
+
+        <div class="actions">
+          <button id="btn-back1" class="btn-ghost">↩ 重新上传</button>
+          <button id="btn-generate" class="btn-primary"><span>生成试镜</span><i>→</i></button>
+        </div>
+        <p id="gen-status" class="running" hidden></p>
+      </section>
+
+      <!-- 03 · 成果 -->
+      <section id="step3" class="act" hidden>
+        <p class="kicker">// STEP 03 — OUTPUT</p>
+        <h2 class="display-sm">换上新发型之后</h2>
+        <div id="result-list" class="lookbook lookbook-result"></div>
+
+        <div class="actions">
+          <button id="btn-back2" class="btn-ghost">↩ 换一批再试</button>
+          <button id="btn-report" class="btn-primary"><span>合成对比报告</span><i>→</i></button>
+        </div>
+
+        <div id="report-wrap" hidden>
+          <p class="kicker">// FINAL — TAKE THIS</p>
+          <h2 class="display-sm">对比报告卡</h2>
+          <figure class="polaroid polaroid-report">
+            <img id="report-img" alt="对比报告卡">
+            <figcaption>长按或右键可保存图片</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <p id="error" class="error-plate" hidden></p>
+    </main>
+  </div>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

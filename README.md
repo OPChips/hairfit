@@ -75,6 +75,16 @@ hairfit generate face.jpg --styles textured_crop,crew_cut --out output/
 hairfit serve            # http://127.0.0.1:8321/docs
 ```
 
+## Web 客户端
+
+服务自带零构建响应式 Web 端（`hairfit/web/`，原生 HTML/JS + PWA），启动服务后浏览器打开根路径即用：
+
+```
+http://127.0.0.1:8321/
+```
+
+三步流程：上传/拍照 → 脸型分析 + 勾选推荐款 → 试戴结果 + 对比报告卡。手机浏览器访问（同一局域网）后"添加到主屏幕"即类原生体验；配合 Tailscale 等组网工具可跨网络访问。
+
 ## API
 
 | 端点 | 说明 |
@@ -82,8 +92,11 @@ hairfit serve            # http://127.0.0.1:8321/docs
 | `POST /v1/analyze` | 照片 → 脸部分析 + top3-5 推荐（`photo` 文件或 `photo_url` 链接二选一） |
 | `POST /v1/generate` | 照片 + style_ids → job_id（后台生成；同样支持 `photo_url`） |
 | `GET /v1/jobs/{id}` | job 进度与结果 |
+| `GET /v1/jobs/{id}/results/{style_id}` | 试戴结果图（`?idx=N` 多图时按序取） |
+| `GET /v1/styles` | 发型库元数据（名称/描述/参考图 URL） |
 | `POST /v1/report` | job → 对比报告卡 PNG（不推荐款用参考图+❌，零生成成本） |
 | `GET /healthz` / `GET /healthz/providers` | 健康检查 / 各 provider key 状态 |
+| `/`、`/assets/*` | Web 客户端 / 发型参考图静态资源 |
 
 ## 发型库
 

@@ -30,7 +30,9 @@ REF_PROMPT = """Studio portrait photograph of {gender_desc} demonstrating the ha
 "{name}": {description}. Front-facing, standard 3/4-free neutral angle, plain
 light-gray studio background, even soft studio lighting, natural dark black or
 dark-brown hair color (no dye), shoulders-up framing, hair fully visible with
-no occlusion from hands, hats, or accessories. Photorealistic, high detail."""
+no occlusion from hands, hats, or accessories. Photorealistic, high detail.
+A single photo only: absolutely no text, captions, labels, watermarks, collage
+panels, or infographic layout."""
 
 
 def _prompt(style: object) -> str:
@@ -54,7 +56,7 @@ async def bootstrap(force: bool, dry_run: bool) -> int:
         out = root / style.ref_image
         if out.exists() and not force:
             continue
-        img_bytes = await chain.edit(_prompt(style), [], size="768x1024")  # type: ignore[union-attr]
+        img_bytes = await chain.edit(_prompt(style), [], size="1152x1536")  # type: ignore[union-attr]
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_bytes(img_bytes)
         # verify it decodes

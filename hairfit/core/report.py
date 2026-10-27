@@ -2,8 +2,8 @@
 
 Compositional, never one-shot: images come from the per-style generation
 pipeline; all text is rendered by code (no typos, i18n-safe).
-Not-recommended slots use the library reference image (model face) with ❌
-and a reason — no generation spent on them.
+Not-recommended slots use the library reference image (model face) with a
+cross mark and a reason — no generation spent on them.
 """
 
 from __future__ import annotations
@@ -37,6 +37,20 @@ def _font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
         except OSError:
             continue
     return ImageFont.load_default()
+
+
+def _draw_mark(draw: ImageDraw.ImageDraw, xy: tuple[int, int], ok: bool) -> None:
+    """Vector check/cross badge — emoji glyphs are missing from CJK fonts."""
+    x, y = xy
+    r = 9
+    draw.ellipse([x, y, x + 2 * r, y + 2 * r], fill=ACCENT if ok else REJECT)
+    cx, cy = x + r, y + r
+    lines = (
+        [(cx - 4, cy + 1), (cx - 1, cy + 4), (cx + 5, cy - 4)]
+        if ok
+        else [(cx - 4, cy - 4), (cx + 4, cy + 4), (cx + 4, cy - 4), (cx - 4, cy + 4)]
+    )
+    draw.line(lines, fill=(255, 255, 255), width=3, joint="curve")
 
 
 def _load(data: bytes | str) -> Image.Image:
@@ -93,8 +107,9 @@ def build_report(
             img = _thumb(_load(image_loader[r.style_id]))
             card.paste(img, (x + (THUMB - img.width) // 2, y))
             style = styles.get(r.style_id)
-            mark = "✅" if not r.qc_skipped else "✅(未质检)"
-            draw.text((x, y + THUMB + 6), f"{mark} {style.name}", fill=ACCENT, font=f_body)
+            suffix = "" if not r.qc_skipped else "（未质检）"
+            _draw_mark(draw, (x, y + THUMB + 10), ok=True)
+            draw.text((x + 26, y + THUMB + 6), f"{style.name}{suffix}", fill=ACCENT, font=f_body)
             x += THUMB + PAD
         y += THUMB + CARD_TEXT_H
     for sid, reason in rejected:
@@ -102,7 +117,9 @@ def build_report(
         style = styles.get(sid)
         img = _thumb(_load(image_loader[sid]))
         card.paste(img, (x, y))
-        draw.text((x, y + THUMB + 6), f"❌ {style.name}：{reason[:20]}", fill=REJECT, font=f_small)
+        _draw_mark(draw, (x, y + THUMB + 12), ok=False)
+        label = f"{style.name}：{reason[:20]}"
+        draw.text((x + 26, y + THUMB + 6), label, fill=REJECT, font=f_small)
         y += THUMB + CARD_TEXT_H
 
     buf = BytesIO()

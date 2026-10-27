@@ -11,3 +11,5 @@ regression/faces/*
 !regression/faces/.gitkeep
 hairfit.db
 output/
+
+.DS_Store
