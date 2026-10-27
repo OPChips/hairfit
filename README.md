@@ -4,6 +4,25 @@
 
 > 设计文档：[docs/design.md](docs/design.md) · 实现计划：[docs/plans/2026-10-23-mvp-implementation.md](docs/plans/2026-10-23-mvp-implementation.md)
 
+## 效果预览
+
+以下截图使用 **AI 合成人脸**演示（非真人照片），全流程真实模型跑通：
+
+**① 上传照片** —— 拖拽/拍照上传，支持正面照预检。演示输入为 AI 合成人脸（[ai-input.jpg](docs/screenshots/ai-input.jpg)）：
+
+![上传页面](docs/screenshots/web-home.jpg)
+
+**② 脸部档案 + 推荐款式** —— 多模态模型分析脸型（脸型/比例/发量/发质），从库内锁定 top 款并逐条给出推荐理由：
+
+![脸部档案与推荐](docs/screenshots/web-step2-styles.jpg)
+
+**③ 试戴结果 + 对比报告卡** —— 图像编辑模型逐款换发，内置 VLM 质检（脸型一致/风格还原评分），最后代码拼版合成对比报告：
+
+![试戴结果](docs/screenshots/web-step3-results.jpg)
+
+![对比报告卡](docs/screenshots/web-step4-report.jpg)
+
+
 ## 架构
 
 ```
