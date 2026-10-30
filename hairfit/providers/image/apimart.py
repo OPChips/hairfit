@@ -22,6 +22,25 @@ _ENVELOPE_OK = (None, 200, "200")
 _TASK_DONE = ("completed",)
 _TASK_FAILED = ("failed", "cancelled")
 
+#: some models (e.g. gpt-image-2.5-*) reject pixel sizes; they take ratios only
+_RATIOS = ("1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3", "5:4", "4:5", "21:9")
+
+
+def _pixel_to_ratio(size: str) -> str | None:
+    """Map a WxH pixel size to the closest supported aspect-ratio string."""
+    try:
+        w_str, h_str = size.lower().split("x")
+        w, h = int(w_str), int(h_str)
+    except ValueError:
+        return None
+    target = w / h
+
+    def _ratio_value(r: str) -> float:
+        rw, rh = r.split(":")
+        return int(rw) / int(rh)
+
+    return min(_RATIOS, key=lambda r: abs(_ratio_value(r) - target))
+
 
 class ApimartDriver(ImageDriver):
     name = "apimart"
@@ -35,6 +54,16 @@ class ApimartDriver(ImageDriver):
             json=body,
             headers={"Authorization": f"Bearer {self.api_key}"},
         )
+        if resp.status_code == 400 and "size must be" in resp.text:
+            # model wants aspect ratios — retry once with the closest ratio
+            ratio = _pixel_to_ratio(size)
+            if ratio:
+                body["size"] = ratio
+                resp = await self._client.post(
+                    f"{self.base_url}/images/generations",
+                    json=body,
+                    headers={"Authorization": f"Bearer {self.api_key}"},
+                )
         resp.raise_for_status()
         payload: dict[str, Any] = resp.json()
         if payload.get("code") not in _ENVELOPE_OK:
