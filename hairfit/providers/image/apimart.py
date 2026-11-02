@@ -54,7 +54,7 @@ class ApimartDriver(ImageDriver):
             json=body,
             headers={"Authorization": f"Bearer {self.api_key}"},
         )
-        if resp.status_code == 400 and "size must be" in resp.text:
+        if resp.status_code == 400 and ("size must be" in resp.text or "aspect ratio" in resp.text):
             # model wants aspect ratios — retry once with the closest ratio
             ratio = _pixel_to_ratio(size)
             if ratio:
