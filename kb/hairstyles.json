@@ -197,12 +197,14 @@
         "2b",
         "2c",
         "3a",
-        "3b"
+        "3b",
+        "3c"
       ],
       "suit_face": [
         "oblong",
         "square",
-        "oval"
+        "oval",
+        "diamond"
       ],
       "avoid_face": [
         "round"
@@ -224,7 +226,10 @@
         "1b",
         "1c",
         "2a",
-        "2b"
+        "2b",
+        "2c",
+        "3a",
+        "3b"
       ],
       "suit_face": [
         "oval",
@@ -304,7 +309,8 @@
       "hair_texture_fit": [
         "1a",
         "1b",
-        "1c"
+        "1c",
+        "2a"
       ],
       "suit_face": [
         "square",
@@ -490,7 +496,9 @@
         "1a",
         "1b",
         "1c",
-        "2a"
+        "2a",
+        "2b",
+        "3a"
       ],
       "suit_face": [
         "round",
@@ -525,7 +533,10 @@
         "square",
         "heart",
         "oblong",
-        "oval"
+        "oval",
+        "round",
+        "triangle",
+        "diamond"
       ],
       "avoid_face": [],
       "scene_tags": [
@@ -552,7 +563,8 @@
       "suit_face": [
         "oval",
         "round",
-        "oblong"
+        "oblong",
+        "triangle"
       ],
       "avoid_face": [
         "diamond"
@@ -579,7 +591,8 @@
       "suit_face": [
         "oval",
         "square",
-        "diamond"
+        "diamond",
+        "triangle"
       ],
       "avoid_face": [],
       "scene_tags": [
@@ -687,7 +700,8 @@
       "suit_face": [
         "oval",
         "square",
-        "oblong"
+        "oblong",
+        "triangle"
       ],
       "avoid_face": [
         "round"
@@ -717,7 +731,9 @@
       "suit_face": [
         "oval",
         "square",
-        "heart"
+        "heart",
+        "round",
+        "triangle"
       ],
       "avoid_face": [
         "oblong"
@@ -773,7 +789,9 @@
       "suit_face": [
         "oval",
         "square",
-        "oblong"
+        "oblong",
+        "triangle",
+        "diamond"
       ],
       "avoid_face": [
         "round"
@@ -801,7 +819,8 @@
       "suit_face": [
         "oval",
         "heart",
-        "diamond"
+        "diamond",
+        "square"
       ],
       "avoid_face": [],
       "scene_tags": [
@@ -849,12 +868,15 @@
         "3a",
         "3b",
         "3c",
-        "4a"
+        "4a",
+        "4b",
+        "4c"
       ],
       "suit_face": [
         "oval",
         "square",
-        "heart"
+        "heart",
+        "oblong"
       ],
       "avoid_face": [],
       "scene_tags": [
@@ -977,7 +999,8 @@
       "volume_demand": "low",
       "hair_texture_fit": [
         "1a",
-        "1b"
+        "1b",
+        "1c"
       ],
       "suit_face": [
         "oval",
@@ -1037,7 +1060,10 @@
       "suit_face": [
         "oval",
         "heart",
-        "diamond"
+        "diamond",
+        "round",
+        "oblong",
+        "triangle"
       ],
       "avoid_face": [],
       "scene_tags": [
@@ -1063,7 +1089,8 @@
       "suit_face": [
         "oval",
         "square",
-        "diamond"
+        "diamond",
+        "triangle"
       ],
       "avoid_face": [],
       "scene_tags": [
@@ -1072,6 +1099,63 @@
         "fashion"
       ],
       "ref_image": "assets/styles/female/cornrows.jpg"
+    },
+    {
+      "id": "curly_curtain_flow",
+      "name": "中分微卷披发",
+      "gender": "male",
+      "length": "medium",
+      "description": "中长发 + 轻层次 + 中分帘式刘海 + 顶部自然卷弧蓬松 + 两侧微卷收顺，卷发质的温柔系中分",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "2b",
+        "3a",
+        "3b"
+      ],
+      "suit_face": [
+        "oval",
+        "round",
+        "square",
+        "heart",
+        "diamond",
+        "triangle"
+      ],
+      "avoid_face": [
+        "oblong"
+      ],
+      "scene_tags": [
+        "daily",
+        "fashion"
+      ],
+      "ref_image": "assets/styles/male/curly_curtain_flow.jpg"
+    },
+    {
+      "id": "crown_volume_curls",
+      "name": "高颅顶卷发",
+      "gender": "female",
+      "length": "medium",
+      "description": "锁骨中发 + 中高层次 + 八字刘海 + 颅顶刻意加量 + 两侧中段卷弧收尾，针对扁头/宽下颌的显脸小烫",
+      "volume_demand": "medium_to_high",
+      "hair_texture_fit": [
+        "2c",
+        "3a",
+        "3b"
+      ],
+      "suit_face": [
+        "round",
+        "triangle",
+        "oblong",
+        "heart"
+      ],
+      "avoid_face": [
+        "oval"
+      ],
+      "scene_tags": [
+        "daily",
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/female/crown_volume_curls.jpg"
     }
   ],
   "references": [
