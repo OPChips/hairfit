@@ -8,10 +8,21 @@
       "length": "short",
       "description": "极短发 + 无层次 + 无刘海 + 顶部贴顺 + 两侧贴顺，全身比例一目了然的利落款",
       "volume_demand": "low",
-      "hair_texture_fit": ["1a", "1b", "1c"],
-      "suit_face": ["oval"],
-      "avoid_face": ["square"],
-      "scene_tags": ["daily", "sporty"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c"
+      ],
+      "suit_face": [
+        "oval"
+      ],
+      "avoid_face": [
+        "square"
+      ],
+      "scene_tags": [
+        "daily",
+        "sporty"
+      ],
       "ref_image": "assets/styles/male/buzz_cut.jpg"
     },
     {
@@ -21,10 +32,25 @@
       "length": "short",
       "description": "短发 + 微层次 + 无刘海 + 顶部略高渐变 + 两侧铲短渐变，干练的军旅风基础款",
       "volume_demand": "low",
-      "hair_texture_fit": ["1a", "1b", "1c", "2a"],
-      "suit_face": ["oval", "round", "triangle"],
-      "avoid_face": ["oblong"],
-      "scene_tags": ["daily", "sporty", "business"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a"
+      ],
+      "suit_face": [
+        "oval",
+        "round",
+        "triangle"
+      ],
+      "avoid_face": [
+        "oblong"
+      ],
+      "scene_tags": [
+        "daily",
+        "sporty",
+        "business"
+      ],
       "ref_image": "assets/styles/male/crew_cut.jpg"
     },
     {
@@ -34,10 +60,25 @@
       "length": "short",
       "description": "短发 + 碎剪层次 + 轻薄短刘海 + 顶部纹理蓬松 + 两侧渐变收短，日韩系日常主力款",
       "volume_demand": "medium",
-      "hair_texture_fit": ["1a", "1b", "1c", "2a", "2b"],
-      "suit_face": ["round", "square", "oval"],
-      "avoid_face": ["oblong"],
-      "scene_tags": ["daily", "fashion"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a",
+        "2b"
+      ],
+      "suit_face": [
+        "round",
+        "square",
+        "oval"
+      ],
+      "avoid_face": [
+        "oblong"
+      ],
+      "scene_tags": [
+        "daily",
+        "fashion"
+      ],
       "ref_image": "assets/styles/male/textured_crop.jpg"
     },
     {
@@ -47,10 +88,22 @@
       "length": "short",
       "description": "短发 + 微层次 + 前倾短刘海 + 顶部平顺微蓬 + 两侧收短，慵懒法式质感",
       "volume_demand": "low_to_medium",
-      "hair_texture_fit": ["1a", "1b", "1c", "2a"],
-      "suit_face": ["heart", "diamond", "oval"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a"
+      ],
+      "suit_face": [
+        "heart",
+        "diamond",
+        "oval"
+      ],
       "avoid_face": [],
-      "scene_tags": ["daily", "fashion"],
+      "scene_tags": [
+        "daily",
+        "fashion"
+      ],
       "ref_image": "assets/styles/male/french_crop.jpg"
     },
     {
@@ -60,10 +113,24 @@
       "length": "medium",
       "description": "中短发 + 无层次 + 无刘海 + 顶部高耸上梳 + 两侧收紧，复古绅士的立体轮廓款",
       "volume_demand": "medium_to_high",
-      "hair_texture_fit": ["1a", "1b", "1c"],
-      "suit_face": ["round", "triangle", "oval"],
-      "avoid_face": ["oblong"],
-      "scene_tags": ["business", "fashion", "formal"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c"
+      ],
+      "suit_face": [
+        "round",
+        "triangle",
+        "oval"
+      ],
+      "avoid_face": [
+        "oblong"
+      ],
+      "scene_tags": [
+        "business",
+        "fashion",
+        "formal"
+      ],
       "ref_image": "assets/styles/male/pompadour.jpg"
     },
     {
@@ -73,10 +140,23 @@
       "length": "medium",
       "description": "中短发 + 无层次 + 侧分线刘海 + 顶部侧梳带高度 + 两侧贴顺，商务精英经典款",
       "volume_demand": "medium",
-      "hair_texture_fit": ["1a", "1b", "1c"],
-      "suit_face": ["round", "oval", "square"],
-      "avoid_face": ["diamond"],
-      "scene_tags": ["business", "formal"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c"
+      ],
+      "suit_face": [
+        "round",
+        "oval",
+        "square"
+      ],
+      "avoid_face": [
+        "diamond"
+      ],
+      "scene_tags": [
+        "business",
+        "formal"
+      ],
       "ref_image": "assets/styles/male/side_part_slick.jpg"
     },
     {
@@ -86,10 +166,23 @@
       "length": "medium",
       "description": "中短发 + 无层次 + 无刘海 + 顶部全部后梳服帖 + 两侧贴顺，成熟利落的绅士款",
       "volume_demand": "medium",
-      "hair_texture_fit": ["1a", "1b", "1c"],
-      "suit_face": ["oval", "square"],
-      "avoid_face": ["diamond", "round"],
-      "scene_tags": ["business", "formal"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c"
+      ],
+      "suit_face": [
+        "oval",
+        "square"
+      ],
+      "avoid_face": [
+        "diamond",
+        "round"
+      ],
+      "scene_tags": [
+        "business",
+        "formal"
+      ],
       "ref_image": "assets/styles/male/slick_back.jpg"
     },
     {
@@ -99,10 +192,25 @@
       "length": "medium",
       "description": "中短发 + 松散卷度层次 + 松卷刘海 + 顶部卷度蓬松 + 两侧自然收，柔和氛围感卷发",
       "volume_demand": "medium",
-      "hair_texture_fit": ["2a", "2b", "2c", "3a", "3b"],
-      "suit_face": ["oblong", "square", "oval"],
-      "avoid_face": ["round"],
-      "scene_tags": ["daily", "fashion"],
+      "hair_texture_fit": [
+        "2a",
+        "2b",
+        "2c",
+        "3a",
+        "3b"
+      ],
+      "suit_face": [
+        "oblong",
+        "square",
+        "oval"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "daily",
+        "fashion"
+      ],
       "ref_image": "assets/styles/male/curly_fringe.jpg"
     },
     {
@@ -112,10 +220,24 @@
       "length": "long",
       "description": "长发 + 无层次 + 无刘海 + 顶部向后半扎成丸 + 两侧自然垂落，街头艺术家风格",
       "volume_demand": "medium",
-      "hair_texture_fit": ["1b", "1c", "2a", "2b"],
-      "suit_face": ["oval", "triangle"],
-      "avoid_face": ["round", "diamond"],
-      "scene_tags": ["fashion", "party"],
+      "hair_texture_fit": [
+        "1b",
+        "1c",
+        "2a",
+        "2b"
+      ],
+      "suit_face": [
+        "oval",
+        "triangle"
+      ],
+      "avoid_face": [
+        "round",
+        "diamond"
+      ],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
       "ref_image": "assets/styles/male/man_bun.jpg"
     },
     {
@@ -125,10 +247,24 @@
       "length": "long",
       "description": "中发 + 微卷层次 + 中分刘海 + 顶部两侧蓬松外翻 + 两侧包脸轮廓，韩系氛围款",
       "volume_demand": "medium_to_high",
-      "hair_texture_fit": ["1a", "1b", "2a", "2b"],
-      "suit_face": ["oblong", "heart", "oval"],
-      "avoid_face": ["round"],
-      "scene_tags": ["daily", "fashion"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "2a",
+        "2b"
+      ],
+      "suit_face": [
+        "oblong",
+        "heart",
+        "oval"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "daily",
+        "fashion"
+      ],
       "ref_image": "assets/styles/male/middle_part_fluffy.jpg"
     },
     {
@@ -138,10 +274,24 @@
       "length": "short",
       "description": "下巴至下颌长度 + 松散卷度 + 轻薄法式刘海 + 顶部自然蓬松 + 两侧内扣包脸，慵懒法式款",
       "volume_demand": "low_to_medium",
-      "hair_texture_fit": ["1a", "1b", "2a", "2b", "3a"],
-      "suit_face": ["heart", "diamond", "oblong", "oval"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "2a",
+        "2b",
+        "3a"
+      ],
+      "suit_face": [
+        "heart",
+        "diamond",
+        "oblong",
+        "oval"
+      ],
       "avoid_face": [],
-      "scene_tags": ["daily", "fashion"],
+      "scene_tags": [
+        "daily",
+        "fashion"
+      ],
       "ref_image": "assets/styles/female/french_bob_wavy.jpg"
     },
     {
@@ -151,10 +301,23 @@
       "length": "medium",
       "description": "齐肩长度 + 无层次钝剪 + 轻薄刘海或无刘海 + 顶部平顺 + 两侧垂直利落，极简气质款",
       "volume_demand": "low_to_medium",
-      "hair_texture_fit": ["1a", "1b", "1c"],
-      "suit_face": ["square", "oval", "triangle"],
-      "avoid_face": ["round"],
-      "scene_tags": ["daily", "business"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c"
+      ],
+      "suit_face": [
+        "square",
+        "oval",
+        "triangle"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "daily",
+        "business"
+      ],
       "ref_image": "assets/styles/female/blunt_lob.jpg"
     },
     {
@@ -164,10 +327,24 @@
       "length": "long",
       "description": "胸下长度 + 纵向层次 + 八字碎刘海 + 顶部自然蓬松 + 两侧层次流动，经典百搭长发",
       "volume_demand": "medium",
-      "hair_texture_fit": ["1a", "1b", "1c", "2a", "2b"],
-      "suit_face": ["round", "square", "oval"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a",
+        "2b"
+      ],
+      "suit_face": [
+        "round",
+        "square",
+        "oval"
+      ],
       "avoid_face": [],
-      "scene_tags": ["daily", "business", "fashion"],
+      "scene_tags": [
+        "daily",
+        "business",
+        "fashion"
+      ],
       "ref_image": "assets/styles/female/long_layers.jpg"
     },
     {
@@ -177,10 +354,22 @@
       "length": "long",
       "description": "胸口长度 + 微层次 + 中分八字刘海 + 顶部顺滑 + 两侧刘海弧线包脸修容，减龄修饰款",
       "volume_demand": "low_to_medium",
-      "hair_texture_fit": ["1a", "1b", "2a"],
-      "suit_face": ["diamond", "heart", "oblong", "oval"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "2a"
+      ],
+      "suit_face": [
+        "diamond",
+        "heart",
+        "oblong",
+        "oval"
+      ],
       "avoid_face": [],
-      "scene_tags": ["daily", "fashion"],
+      "scene_tags": [
+        "daily",
+        "fashion"
+      ],
       "ref_image": "assets/styles/female/curtain_bangs_long.jpg"
     },
     {
@@ -190,10 +379,23 @@
       "length": "short",
       "description": "耳下极短 + 碎剪层次 + 不规则碎刘海 + 顶部蓬松立体 + 两侧贴颈利落，率性精灵感",
       "volume_demand": "low_to_medium",
-      "hair_texture_fit": ["1a", "1b", "2a"],
-      "suit_face": ["oval", "square"],
-      "avoid_face": ["round", "heart"],
-      "scene_tags": ["fashion", "party"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "2a"
+      ],
+      "suit_face": [
+        "oval",
+        "square"
+      ],
+      "avoid_face": [
+        "round",
+        "heart"
+      ],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
       "ref_image": "assets/styles/female/pixie_cut.jpg"
     },
     {
@@ -203,10 +405,25 @@
       "length": "medium",
       "description": "肩下长度 + 高层次碎剪 + 蓬松碎刘海 + 顶部蓬松堆叠 + 两侧发尾外翘，摇滚少年感",
       "volume_demand": "medium",
-      "hair_texture_fit": ["1b", "1c", "2a", "2b", "2c"],
-      "suit_face": ["round", "square", "oval"],
-      "avoid_face": ["oblong"],
-      "scene_tags": ["fashion", "party"],
+      "hair_texture_fit": [
+        "1b",
+        "1c",
+        "2a",
+        "2b",
+        "2c"
+      ],
+      "suit_face": [
+        "round",
+        "square",
+        "oval"
+      ],
+      "avoid_face": [
+        "oblong"
+      ],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
       "ref_image": "assets/styles/female/wolf_cut.jpg"
     },
     {
@@ -216,10 +433,24 @@
       "length": "long",
       "description": "长直发 + 颧骨处水平切短两侧 + 齐刘海 + 顶部平顺 + 两侧姬发式垂坠，二次元气质款",
       "volume_demand": "medium",
-      "hair_texture_fit": ["1a", "1b", "1c"],
-      "suit_face": ["diamond", "oblong", "oval"],
-      "avoid_face": ["square", "round"],
-      "scene_tags": ["fashion", "party"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c"
+      ],
+      "suit_face": [
+        "diamond",
+        "oblong",
+        "oval"
+      ],
+      "avoid_face": [
+        "square",
+        "round"
+      ],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
       "ref_image": "assets/styles/female/hime_cut.jpg"
     },
     {
@@ -229,10 +460,23 @@
       "length": "medium",
       "description": "齐肩长度 + 大波浪卷度 + 斜刘海或无刘海 + 顶部蓬松 + 发尾外翻俏皮，温柔氛围款",
       "volume_demand": "medium",
-      "hair_texture_fit": ["1a", "1b", "2a", "2b"],
-      "suit_face": ["square", "heart", "oval"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "2a",
+        "2b"
+      ],
+      "suit_face": [
+        "square",
+        "heart",
+        "oval"
+      ],
       "avoid_face": [],
-      "scene_tags": ["daily", "fashion", "party"],
+      "scene_tags": [
+        "daily",
+        "fashion",
+        "party"
+      ],
       "ref_image": "assets/styles/female/shoulder_wavy.jpg"
     },
     {
@@ -242,10 +486,25 @@
       "length": "long",
       "description": "长发扎起 + 无层次 + 无刘海 + 头顶拉出蓬松弧度 + 两侧收紧露脸，元气利落款",
       "volume_demand": "medium",
-      "hair_texture_fit": ["1a", "1b", "1c", "2a"],
-      "suit_face": ["round", "oval", "triangle"],
-      "avoid_face": ["diamond"],
-      "scene_tags": ["daily", "sporty", "party"],
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a"
+      ],
+      "suit_face": [
+        "round",
+        "oval",
+        "triangle"
+      ],
+      "avoid_face": [
+        "diamond"
+      ],
+      "scene_tags": [
+        "daily",
+        "sporty",
+        "party"
+      ],
       "ref_image": "assets/styles/female/high_ponytail.jpg"
     },
     {
@@ -255,11 +514,564 @@
       "length": "long",
       "description": "胸口以下长度 + 松散大卷层次 + 侧分长刘海 + 顶部自然卷蓬松 + 两侧卷度包脸，浪漫复古款",
       "volume_demand": "medium_to_high",
-      "hair_texture_fit": ["2b", "2c", "3a", "3b", "3c"],
-      "suit_face": ["square", "heart", "oblong", "oval"],
+      "hair_texture_fit": [
+        "2b",
+        "2c",
+        "3a",
+        "3b",
+        "3c"
+      ],
+      "suit_face": [
+        "square",
+        "heart",
+        "oblong",
+        "oval"
+      ],
       "avoid_face": [],
-      "scene_tags": ["daily", "fashion", "party"],
+      "scene_tags": [
+        "daily",
+        "fashion",
+        "party"
+      ],
       "ref_image": "assets/styles/female/curly_long_shag.jpg"
+    },
+    {
+      "id": "two_block",
+      "name": "两块式",
+      "gender": "male",
+      "length": "medium",
+      "description": "中长发 + 侧/后分层铲短 + 自然下垂刘海 + 顶部留长蓬松 + 两侧铲短见青，韩系男团标志性轮廓",
+      "volume_demand": "medium_to_high",
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a",
+        "2b"
+      ],
+      "suit_face": [
+        "oval",
+        "round",
+        "oblong"
+      ],
+      "avoid_face": [
+        "diamond"
+      ],
+      "scene_tags": [
+        "daily",
+        "fashion"
+      ],
+      "ref_image": "assets/styles/male/two_block.jpg"
+    },
+    {
+      "id": "comb_over_fade",
+      "name": "渐变侧梳头",
+      "gender": "male",
+      "length": "short",
+      "description": "短发 + 无层次 + 无刘海 + 侧分顶部斜梳 + 两侧渐变铲短，商务精英感的经典 taper fade",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a"
+      ],
+      "suit_face": [
+        "oval",
+        "square",
+        "diamond"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "business",
+        "formal",
+        "daily"
+      ],
+      "ref_image": "assets/styles/male/comb_over_fade.jpg"
+    },
+    {
+      "id": "undercut",
+      "name": " Undercut 铲青",
+      "gender": "male",
+      "length": "short",
+      "description": "短发 + 无层次 + 后梳/侧梳无刘海 + 顶部利落 + 两侧大面积铲短形成强烈长短对比",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a",
+        "2b"
+      ],
+      "suit_face": [
+        "oval",
+        "square",
+        "heart"
+      ],
+      "avoid_face": [
+        "oblong"
+      ],
+      "scene_tags": [
+        "fashion",
+        "daily"
+      ],
+      "ref_image": "assets/styles/male/undercut.jpg"
+    },
+    {
+      "id": "mullet",
+      "name": "鲻鱼头",
+      "gender": "male",
+      "length": "medium",
+      "description": "中长发 + 低层次 + 额前短碎刘海 + 顶部蓬松 + 后颈留长前短后长，复古叛逆的 party 头",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "1b",
+        "1c",
+        "2a",
+        "2b",
+        "2c"
+      ],
+      "suit_face": [
+        "oval",
+        "heart",
+        "diamond"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/male/mullet.jpg"
+    },
+    {
+      "id": "wolf_cut_male",
+      "name": "男版狼尾剪",
+      "gender": "male",
+      "length": "medium",
+      "description": "中长发 + 高层次碎剪 + 碎盖刘海 + 顶部蓬乱纹理 + 后颈狼尾拖尾，日韩摇滚系人气款",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "1b",
+        "1c",
+        "2a",
+        "2b",
+        "2c"
+      ],
+      "suit_face": [
+        "oval",
+        "round",
+        "heart"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/male/wolf_cut_male.jpg"
+    },
+    {
+      "id": "down_perm",
+      "name": "下扣烫",
+      "gender": "male",
+      "length": "short",
+      "description": "短发 + 无层次 + 轻薄刘海 + 顶部发丝向下微扣弧度 + 两侧自然收顺，韩系温柔通勤款",
+      "volume_demand": "low_to_medium",
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a"
+      ],
+      "suit_face": [
+        "oval",
+        "square",
+        "oblong"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "daily",
+        "business"
+      ],
+      "ref_image": "assets/styles/male/down_perm.jpg"
+    },
+    {
+      "id": "curly_top_fade",
+      "name": "卷顶渐变",
+      "gender": "male",
+      "length": "short",
+      "description": "短发 + 顶部卷曲留长 + 短碎刘海 + 顶部卷量蓬松 + 两侧低位渐变铲短，卷发质专属利落款",
+      "volume_demand": "medium_to_high",
+      "hair_texture_fit": [
+        "3a",
+        "3b",
+        "3c",
+        "4a",
+        "4b",
+        "4c",
+        "2c"
+      ],
+      "suit_face": [
+        "oval",
+        "square",
+        "heart"
+      ],
+      "avoid_face": [
+        "oblong"
+      ],
+      "scene_tags": [
+        "daily",
+        "fashion",
+        "sporty"
+      ],
+      "ref_image": "assets/styles/male/curly_top_fade.jpg"
+    },
+    {
+      "id": "flow_long",
+      "name": "中长披发 Flow",
+      "gender": "male",
+      "length": "long",
+      "description": "长发 + 轻层次 + 自然中分无刘海定型 + 顶部向后流动 + 两侧自然垂落过耳，冲浪手式随性 long hair",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a",
+        "2b"
+      ],
+      "suit_face": [
+        "oval",
+        "square",
+        "diamond"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/male/flow_long.jpg"
+    },
+    {
+      "id": "afro",
+      "name": "爆炸头 Afro",
+      "gender": "male",
+      "length": "short",
+      "description": "短发至中发 + 无层次圆形修剪 + 无刘海 + 整体蓬起成球形体积 + 两侧同形收圆，自然卷发质的经典体积款",
+      "volume_demand": "high",
+      "hair_texture_fit": [
+        "3c",
+        "4a",
+        "4b",
+        "4c"
+      ],
+      "suit_face": [
+        "oval",
+        "square",
+        "oblong"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "daily",
+        "fashion",
+        "sporty"
+      ],
+      "ref_image": "assets/styles/male/afro.jpg"
+    },
+    {
+      "id": "locs",
+      "name": "脏辫 Locs",
+      "gender": "male",
+      "length": "long",
+      "description": "长发 + 绳绺分束 + 无刘海 + 顶部束量垂坠 + 两侧辫束垂落，玉米辫/脏辫文化标志性款",
+      "volume_demand": "high",
+      "hair_texture_fit": [
+        "4a",
+        "4b",
+        "4c",
+        "3c"
+      ],
+      "suit_face": [
+        "oval",
+        "heart",
+        "diamond"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/male/locs.jpg"
+    },
+    {
+      "id": "straight_bob",
+      "name": "直发鲍伯",
+      "gender": "female",
+      "length": "short",
+      "description": "齐下巴短发 + 无层次 + 齐平刘海可选 + 顶部服帖内扣 + 两侧平直包脸，法式极简的一刀切 BOB",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c"
+      ],
+      "suit_face": [
+        "oval",
+        "heart",
+        "oblong"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "daily",
+        "business",
+        "fashion"
+      ],
+      "ref_image": "assets/styles/female/straight_bob.jpg"
+    },
+    {
+      "id": "curly_bob",
+      "name": "卷发鲍伯",
+      "gender": "female",
+      "length": "short",
+      "description": "下巴短鲍伯 + 中层次 + 空气刘海 + 顶部卷量蓬松 + 两侧弹性卷弧，自然卷发质的减龄款",
+      "volume_demand": "medium_to_high",
+      "hair_texture_fit": [
+        "2c",
+        "3a",
+        "3b",
+        "3c",
+        "4a"
+      ],
+      "suit_face": [
+        "oval",
+        "square",
+        "heart"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "daily",
+        "fashion"
+      ],
+      "ref_image": "assets/styles/female/curly_bob.jpg"
+    },
+    {
+      "id": "butterfly_cut",
+      "name": "蝴蝶剪",
+      "gender": "female",
+      "length": "long",
+      "description": "长发 + 高层次面框碎发 + 八字刘海 + 顶部服帖 + 两侧短层翻飞如蝶翼，长发版狼尾的仙气款",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "1b",
+        "1c",
+        "2a",
+        "2b"
+      ],
+      "suit_face": [
+        "oval",
+        "round",
+        "square"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/female/butterfly_cut.jpg"
+    },
+    {
+      "id": "octopus_cut",
+      "name": "章鱼剪",
+      "gender": "female",
+      "length": "medium",
+      "description": "锁骨中发 + 极高层次碎剪 + 细碎帘式刘海 + 顶部贴顺 + 两侧炸开如章鱼触手，日系个性款",
+      "volume_demand": "medium_to_high",
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a"
+      ],
+      "suit_face": [
+        "round",
+        "square",
+        "heart"
+      ],
+      "avoid_face": [
+        "oblong"
+      ],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/female/octopus_cut.jpg"
+    },
+    {
+      "id": "wool_rolls",
+      "name": "羊毛卷",
+      "gender": "female",
+      "length": "long",
+      "description": "长发 + 中高层次 + 齐碎/空气刘海 + 顶部细密卷量 + 两侧满头小卷如羊毛，泰系氛围感卷发",
+      "volume_demand": "high",
+      "hair_texture_fit": [
+        "2b",
+        "2c",
+        "3a",
+        "3b"
+      ],
+      "suit_face": [
+        "oval",
+        "oblong",
+        "diamond"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/female/wool_rolls.jpg"
+    },
+    {
+      "id": "egg_roll_perm",
+      "name": "蛋卷头",
+      "gender": "female",
+      "length": "medium",
+      "description": "锁骨中发 + 无层次 + 齐刘海可选 + 顶部规则分段波纹 + 两侧连续蛋卷弧度，复古甜美的日系烫",
+      "volume_demand": "medium_to_high",
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a"
+      ],
+      "suit_face": [
+        "oval",
+        "oblong",
+        "heart"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "daily",
+        "party",
+        "fashion"
+      ],
+      "ref_image": "assets/styles/female/egg_roll_perm.jpg"
+    },
+    {
+      "id": "black_long_straight",
+      "name": "黑长直",
+      "gender": "female",
+      "length": "long",
+      "description": "过胸长发 + 无层次 + 中分或帘式刘海 + 顶部服帖垂顺 + 两侧笔直如瀑，东亚经典初恋款",
+      "volume_demand": "low",
+      "hair_texture_fit": [
+        "1a",
+        "1b"
+      ],
+      "suit_face": [
+        "oval",
+        "heart",
+        "diamond"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "daily",
+        "formal",
+        "business"
+      ],
+      "ref_image": "assets/styles/female/black_long_straight.jpg"
+    },
+    {
+      "id": "low_bun",
+      "name": "低盘发",
+      "gender": "female",
+      "length": "medium",
+      "description": "中长发盘起 + 无层次 + 侧分光洁刘海线 + 顶部顺滑收紧 + 两侧收净于颈后低髻，优雅典礼款",
+      "volume_demand": "low_to_medium",
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a"
+      ],
+      "suit_face": [
+        "oval",
+        "heart",
+        "square"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "formal",
+        "business",
+        "party"
+      ],
+      "ref_image": "assets/styles/female/low_bun.jpg"
+    },
+    {
+      "id": "box_braids",
+      "name": "盒状辫",
+      "gender": "female",
+      "length": "long",
+      "description": "长发分束编织 + 无层次 + 发际分方格 + 顶部辫束垂坠 + 两侧细辫垂落，非洲辫文化保护型发型",
+      "volume_demand": "high",
+      "hair_texture_fit": [
+        "3b",
+        "3c",
+        "4a",
+        "4b",
+        "4c"
+      ],
+      "suit_face": [
+        "oval",
+        "heart",
+        "diamond"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "fashion",
+        "daily",
+        "sporty"
+      ],
+      "ref_image": "assets/styles/female/box_braids.jpg"
+    },
+    {
+      "id": "cornrows",
+      "name": "贴头玉米辫",
+      "gender": "female",
+      "length": "short",
+      "description": "贴头皮编发 + 无垂落层次 + 无刘海 + 顶部行垄纹理 + 两侧贴顺收线，运动与街头兼得的低维护款",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "3c",
+        "4a",
+        "4b",
+        "4c"
+      ],
+      "suit_face": [
+        "oval",
+        "square",
+        "diamond"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "sporty",
+        "daily",
+        "fashion"
+      ],
+      "ref_image": "assets/styles/female/cornrows.jpg"
     }
   ],
   "references": [

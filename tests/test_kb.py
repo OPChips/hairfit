@@ -23,7 +23,7 @@ class TestRealKBs:
 
     def test_hairstyles_loads(self) -> None:
         kb = load_hairstyles()
-        assert len(kb.items) == 20
+        assert len(kb.items) >= 40
 
     def test_shipped_kbs_have_no_problems(self) -> None:
         assert validate_knowledge_bases() == []

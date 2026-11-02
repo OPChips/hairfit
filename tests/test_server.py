@@ -129,7 +129,7 @@ class TestWebClient:
         app = _mock_app(tmp_path)
         with TestClient(app) as client:
             styles = client.get("/v1/styles").json()
-            assert len(styles) == 20
+            assert len(styles) >= 40
             one = styles[0]
             assert set(one) == {"id", "name", "gender", "description", "ref_image"}
             assert one["ref_image"].startswith("/assets/styles/")
