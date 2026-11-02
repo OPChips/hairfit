@@ -42,8 +42,18 @@ Ports & Adapters 分层：`core/`（业务编排）只依赖两个端口（`Anal
 | 环节 | 支持 |
 |---|---|
 | 分析+推荐 | OpenAI、Anthropic、DeepSeek、火山豆包、阿里千问、智谱、Kimi 等（OpenAI 兼容端点共用一个适配器） |
-| 换发生成 | openai（gpt-image）、gemini（Nano Banana）、seedream（豆包 Ark）、grok |
+| 换发生成 | openai（gpt-image-2.5 系列）、gemini（Nano Banana / gemini-3-pro-image）、seedream（豆包 Seedream 5）、grok |
 | 中转/聚合 | apimart（一把 key 通吃分析+生成，OpenAI 兼容） |
+
+**生图模型怎么选**（同题实测数据：同一张脸 + 同一张参考图 + 同一提示词，经 apimart）：
+
+| 模型 | 延迟 | 特点 |
+|---|---|---|
+| `seedream-5-0-flash` | ~12s | **推荐默认**：换发准确、身份保持好、成本低、国内直连稳 |
+| `gemini-3-pro-image-preview`（Nano Banana） | ~25s | 质量好，但肤色偏"美颜化"，面部细节略有漂移 |
+| `gpt-image-2.5-ext` | ~250s | 指令遵循最强、效果自然，但慢 20 倍、输出体积 10 倍，适合兜底 |
+
+国内用户推荐 `apimart + seedream-5-0-flash`；复杂纠正指令的重试场景可把 gpt-image 挂在 fallback 链兜底。
 
 不使用任何厂商 SDK，统一 httpx 异步直连 REST。每个环节声明 fallback 链，单厂商故障自动切换；未配置 key 的 provider 自动跳过。另内置 `mock` provider（显式指定即可无 key 跑通全链路，如 `make demo`）。
 
@@ -112,7 +122,7 @@ http://127.0.0.1:8321/
 | 端点 | 说明 |
 |---|---|
 | `POST /v1/analyze` | 照片 → 脸部分析 + top3-5 推荐（`photo` 文件或 `photo_url` 链接二选一） |
-| `POST /v1/generate` | 照片 + style_ids → job_id（后台生成；同样支持 `photo_url`） |
+| `POST /v1/generate` | 照片 + style_ids → job_id（后台生成；同样支持 `photo_url`）。`style_ids` 为逗号分隔字符串，如 `crew_cut,textured_crop` |
 | `GET /v1/jobs/{id}` | job 进度与结果 |
 | `GET /v1/jobs/{id}/results/{style_id}` | 试戴结果图（`?idx=N` 多图时按序取） |
 | `GET /v1/styles` | 发型库元数据（名称/描述/参考图 URL） |
