@@ -30,7 +30,10 @@ REF_PROMPT = """Studio portrait photograph of {gender_desc} demonstrating the ha
 "{name}": {description}. Front-facing, standard 3/4-free neutral angle, plain
 light-gray studio background, even soft studio lighting, natural dark black or
 dark-brown hair color (no dye), shoulders-up framing, hair fully visible with
-no occlusion from hands, hats, or accessories. Photorealistic, high detail.
+no occlusion from hands, hats, or accessories. The model's hair texture must
+match this hairstyle naturally (e.g. coily styles on coily-haired models).
+The model wears a plain crew-neck T-shirt or simple top; shoulders and chest
+fully covered by clothing; no bare shoulders. Photorealistic, high detail.
 A single photo only: absolutely no text, captions, labels, watermarks, collage
 panels, or infographic layout."""
 

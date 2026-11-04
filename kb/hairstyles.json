@@ -1156,6 +1156,226 @@
         "party"
       ],
       "ref_image": "assets/styles/female/crown_volume_curls.jpg"
+    },
+    {
+      "id": "quiff",
+      "name": "飞机头 Quiff",
+      "gender": "male",
+      "length": "short",
+      "description": "短发 + 无层次 + 无刘海 + 前额向上向后堆出体积 + 两侧渐变收短，欧美经典利落款",
+      "volume_demand": "medium_to_high",
+      "hair_texture_fit": [
+        "1a",
+        "1b",
+        "1c",
+        "2a",
+        "2b"
+      ],
+      "suit_face": [
+        "oval",
+        "round",
+        "square",
+        "heart"
+      ],
+      "avoid_face": [
+        "oblong"
+      ],
+      "scene_tags": [
+        "daily",
+        "business",
+        "fashion"
+      ],
+      "ref_image": "assets/styles/male/quiff.jpg"
+    },
+    {
+      "id": "two_strand_twists",
+      "name": "双股扭辫",
+      "gender": "male",
+      "length": "medium",
+      "description": "中发分束双股扭转 + 无刘海 + 顶部束量分明 + 两侧短束垂顺，自然卷发质的低维护保护型发型",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "3c",
+        "4a",
+        "4b",
+        "4c"
+      ],
+      "suit_face": [
+        "oval",
+        "diamond",
+        "heart"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "daily",
+        "fashion",
+        "sporty"
+      ],
+      "ref_image": "assets/styles/male/two_strand_twists.jpg"
+    },
+    {
+      "id": "waves_360",
+      "name": "360 波纹头",
+      "gender": "male",
+      "length": "short",
+      "description": "极短发 + 无层次 + 无刘海 + 全头波纹纹理图案 + 两侧贴顺，黑发质标志性的刷养波纹",
+      "volume_demand": "low",
+      "hair_texture_fit": [
+        "4a",
+        "4b"
+      ],
+      "suit_face": [
+        "oval",
+        "square",
+        "diamond",
+        "triangle"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "daily",
+        "sporty"
+      ],
+      "ref_image": "assets/styles/male/waves_360.jpg"
+    },
+    {
+      "id": "high_top_fade",
+      "name": "高顶渐变",
+      "gender": "male",
+      "length": "short",
+      "description": "短发 + 无层次 + 无刘海 + 顶部垂直高耸平齐 + 两侧低位渐变铲青，80-90s 复古街头款",
+      "volume_demand": "high",
+      "hair_texture_fit": [
+        "3c",
+        "4a",
+        "4b",
+        "4c"
+      ],
+      "suit_face": [
+        "oval",
+        "round",
+        "heart"
+      ],
+      "avoid_face": [
+        "oblong"
+      ],
+      "scene_tags": [
+        "fashion",
+        "party",
+        "sporty"
+      ],
+      "ref_image": "assets/styles/male/high_top_fade.jpg"
+    },
+    {
+      "id": "bantu_knots",
+      "name": "班图结",
+      "gender": "female",
+      "length": "short",
+      "description": "短发分束盘绕成结 + 无层次 + 无刘海 + 全头结节立体分布 + 两侧收净，非洲传统造型的时尚回归",
+      "volume_demand": "high",
+      "hair_texture_fit": [
+        "4a",
+        "4b",
+        "4c",
+        "3c"
+      ],
+      "suit_face": [
+        "oval",
+        "heart",
+        "diamond"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/female/bantu_knots.jpg"
+    },
+    {
+      "id": "twa",
+      "name": "极短自然卷 TWA",
+      "gender": "female",
+      "length": "short",
+      "description": "极短发 + 无层次 + 无刘海 + 全头贴头皮自然卷纹理 + 两侧同长收圆，big chop 后的自然状态款",
+      "volume_demand": "low_to_medium",
+      "hair_texture_fit": [
+        "4a",
+        "4b",
+        "4c",
+        "3c"
+      ],
+      "suit_face": [
+        "oval",
+        "square",
+        "heart",
+        "diamond"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "daily",
+        "sporty",
+        "fashion"
+      ],
+      "ref_image": "assets/styles/female/twa.jpg"
+    },
+    {
+      "id": "twist_out",
+      "name": "扭出卷 Twist-out",
+      "gender": "female",
+      "length": "medium",
+      "description": "中发 + 中层次 + 侧分无刘海 + 顶部松散螺旋卷量 + 两侧弹润卷束，自然卷社区最流行的造型手法",
+      "volume_demand": "medium_to_high",
+      "hair_texture_fit": [
+        "4a",
+        "4b",
+        "4c",
+        "3c"
+      ],
+      "suit_face": [
+        "oval",
+        "oblong",
+        "diamond"
+      ],
+      "avoid_face": [
+        "round"
+      ],
+      "scene_tags": [
+        "daily",
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/female/twist_out.jpg"
+    },
+    {
+      "id": "beach_waves",
+      "name": "沙滩波浪",
+      "gender": "female",
+      "length": "long",
+      "description": "长发 + 轻层次 + 中分或帘式刘海 + 顶部自然起伏 + 两侧松散大波浪微乱，欧美松弛感人气款",
+      "volume_demand": "medium",
+      "hair_texture_fit": [
+        "1b",
+        "1c",
+        "2a",
+        "2b",
+        "2c"
+      ],
+      "suit_face": [
+        "oval",
+        "round",
+        "square",
+        "heart"
+      ],
+      "avoid_face": [],
+      "scene_tags": [
+        "daily",
+        "fashion",
+        "party"
+      ],
+      "ref_image": "assets/styles/female/beach_waves.jpg"
     }
   ],
   "references": [
